@@ -9,8 +9,8 @@ import AuthApi from "../apis/AuthApi";
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("superadmin1");
+  const [password, setPassword] = useState("SuperAdmin123!");
   const { error } = useSelector((state) => state.auth)
 
   // superadmin1
@@ -41,7 +41,6 @@ export default function LoginScreen() {
             }
           })
         } else {
-          console.log("tidak");
           navigate.replace("Welcome")
         }
       } catch (error) {

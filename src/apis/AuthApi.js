@@ -17,10 +17,10 @@ export default class AuthApi {
                 },
             })
 
-            if(res.status === 200) {
                 await AsyncStorage.setItem("access_token", res.data.access_token)
                 store.dispatch(login(jwtDecode(res.data.access_token)))
-            }
+                console.log("DIPANGGIL LOGIN");
+                
 
             return res
         } catch (error) {
@@ -43,20 +43,6 @@ export default class AuthApi {
         } catch (error) {
             console.log("AuthApi register: ", error.message);
             return error
-        }
-    }
-
-    static async logout() {
-        try {
-            store.dispatch(setError(null))
-            store.dispatch(setIsLoading(true))
-            await AsyncStorage.removeItem("access_token")
-            store.dispatch(logout())
-        } catch (error) {
-            store.dispatch(setError(error.message))
-            console.log("AuthApi logout: ", error.message);
-        } finally {
-            store.dispatch(setIsLoading(false))
         }
     }
 

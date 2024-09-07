@@ -8,7 +8,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicRoutes from "./PublicRoutes";
 import store from "../redux/store";
-import { login } from "../redux/auth/authSlice";
+import { login, logout } from "../redux/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import ProductDetail from "../screens/authorization/product/ProductDetail"
 
@@ -19,8 +19,12 @@ export default function AppNavigator() {
 
   const setUser = async() => {
     const token = await AsyncStorage.getItem("access_token")
+    console.log("tokenn: ", token);
+    
     if (token) {
       store.dispatch(login(jwtDecode(token)));
+    } else {
+      store.dispatch(logout());
     }
   }
 

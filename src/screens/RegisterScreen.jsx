@@ -10,17 +10,17 @@ import AuthApi from '../apis/AuthApi';
 export default function RegisterScreen() {
     const [showPassword, setShowPassword] = useState(false);
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("")
+    // const [username, setUsername] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [name, setName] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [confirmPassword, setConfirmPassword] = useState("")
 
-    // const [username, setUsername] = useState("validUsername2"); 
-    // const [email, setEmail] = useState("validemail2@example.com");
-    // const [name, setName] = useState("validname"); 
-    // const [password, setPassword] = useState("Valid@123");
-    // const [confirmPassword, setConfirmPassword] = useState("Valid@123"); 
+    const [username, setUsername] = useState("validUsername2"); 
+    const [email, setEmail] = useState("validemail2@example.com");
+    const [name, setName] = useState("validname"); 
+    const [password, setPassword] = useState("Valid@123");
+    const [confirmPassword, setConfirmPassword] = useState("Valid@123"); 
 
     const navigate = useNavigation()
 
