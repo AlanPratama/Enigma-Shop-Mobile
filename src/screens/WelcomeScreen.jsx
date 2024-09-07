@@ -2,16 +2,18 @@ import { View, Text, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Animated, { FadeIn } from 'react-native-reanimated'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useSelector } from 'react-redux'
 
 export default function WelcomeScreen() {
 
     const navigation = useNavigation()
-    const route = useRoute()
-    const { isLogin } = route.params
+
+    const { isAuthenticated } = useSelector((state) => state.auth)
 
     useEffect(() => {
-        setTimeout(() => {
-            navigation.navigate(isLogin ? "Protected" : "Public")
+      setTimeout(() => {
+          navigation.replace(isAuthenticated ? "Protected" : "Public", { punyaLeviKECIL: true })
         }, 2500)
     }, [])
 

@@ -3,33 +3,71 @@ import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated, { FadeIn } from 'react-native-reanimated'
+import AuthApi from "../apis/AuthApi";
+import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { error } = useSelector((state) => state.auth)
+
+  // superadmin1
+  // SuperAdmin123!
 
   const navigate = useNavigation();
 
+  const handleLogin = async () => {
+      try {
+        const res = await AuthApi.login({
+          username,
+          password
+        })
+  
+        if(error) {
+          console.log("error");
+          Toast.show({
+            type: "error",
+            text1: "Login Gagal",
+            text2: "Username atau Password salah!",
+            text1Style: {
+              fontSize: 16,
+              color: "#262626"
+            },
+            text2Style: {
+              fontSize: 14,
+              color: "#262626"
+            }
+          })
+        } else {
+          console.log("tidak");
+          navigate.replace("Welcome")
+        }
+      } catch (error) {
+        console.log("LoginScreen Err: ", error);
+      }
+  }
+
   return (
     <View className="bg-white min-h-screen flex justify-center items-center">
-      <Animated.View entering={FadeIn.delay(200)} className="p-4 my-4 bg-white rounded-full">
-        <Image
-          source={require("../../assets/welcome.png")}
-          alt="Enigma Shop"
-          className="h-64 w-64 rounded-full"
-        />
-      </Animated.View>
+      <Toast position="top"  />
       <View className="w-full px-8">
         <Animated.Text entering={FadeIn.delay(300)} className="text-2xl text-[#223e90] font-bold">
           Silahkan Login!
         </Animated.Text>
         <Animated.View entering={FadeIn.delay(400)}>
           <TextInput
+            value={username}
+            onChangeText={setUsername}
             placeholder="Masukkan username..."
             className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
           />
         </Animated.View>
         <Animated.View entering={FadeIn.delay(500)} className="relative">
           <TextInput
+            value={password}
+            onChangeText={setPassword}
             secureTextEntry={!showPassword}
             placeholder="Masukkan password..."
             className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
@@ -45,6 +83,7 @@ export default function LoginScreen() {
         </Animated.View>
         <Animated.View entering={FadeIn.delay(600)}>
           <TouchableOpacity
+            onPress={handleLogin}
             className="bg-[#314ea7] border-2 border-gray-100 rounded-lg py-3 my-2"
             activeOpacity={0.7}
           >
@@ -58,6 +97,13 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </Animated.View>
       </View>
+      <Animated.View entering={FadeIn.delay(200)} className="p-4 my-4 bg-white rounded-full">
+        <Image
+          source={require("../../assets/welcome.png")}
+          alt="Enigma Shop"
+          className="h-64 w-64 rounded-full"
+        />
+      </Animated.View>
     </View>
   );
 }
