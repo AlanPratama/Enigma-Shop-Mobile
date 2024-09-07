@@ -1,11 +1,11 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Animated, { FadeIn } from 'react-native-reanimated'
-import AuthApi from "../apis/AuthApi";
+import Animated, { FadeIn } from 'react-native-reanimated';
 import Toast from "react-native-toast-message";
 import { useSelector } from "react-redux";
+import AuthApi from "../apis/AuthApi";
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);

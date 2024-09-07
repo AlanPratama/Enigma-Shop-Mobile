@@ -31,6 +31,21 @@ export default class AuthApi {
         }
     }
 
+    static async register(dataRequest) {
+        try {
+            const res = await axiosInstance.post("/auth/signup/customer", dataRequest, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            return res
+        } catch (error) {
+            console.log("AuthApi register: ", error.message);
+            return error
+        }
+    }
+
     static async logout() {
         try {
             store.dispatch(setError(null))
