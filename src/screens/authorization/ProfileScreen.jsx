@@ -1,60 +1,53 @@
-import { View, Text, Image, ScrollView } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import AuthApi from '../../apis/AuthApi';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from "react-redux";
 
 export default function ProfileScreen() {
+  const { user } = useSelector((state) => state.auth)
+  const navigation = useNavigation()
+
+  console.log("USER: ", user);
+  
+
+  const handleLogout = async () => {
+    try {
+      await AuthApi.logout()
+      console.log("Berhasil logout");
+      navigation.replace("Welcome")
+    } catch (error) {
+      console.log("HomeScreen Err: ", error);
+    }
+  }
+
   return (
-    <ScrollView className="bg-white">
-      {/* Header with profile image */}
-      <View className="relative bg-gradient-to-r from-[#262626] to-[#ffffff] h-64 w-full rounded-b-lg">
-        {/* Back icon */}
-        <Ionicons name="arrow-back" size={24} color="white" className="absolute top-6 left-4" />
-        {/* Menu icon */}
-        <Ionicons name="menu" size={24} color="white" className="absolute top-6 right-4" />
-        {/* Profile image */}
-        <View className="absolute left-1/2 -translate-x-1/2 top-16">
-          <Image
-            source={{ uri: 'https://tse2.mm.bing.net/th?id=OIP.l8N4H5EfKyEhQNqOelX49AHaHa&pid=Api&P=0&h=220' }}
-            className="h-24 w-24 rounded-full border-4 border-white"
-          />
+    <View className="bg-white min-h-screen">
+      <View className="bg-[#223e90] rounded-b-full w-full h-96 fixed -top-[24%] flex justify-end items-center">
+        <View className="w-36 h-36 absolute -bottom-[15%] border border-gray-200 rounded-full">
+          <Image source={{ uri: user.profilePictureUrl ? user.profilePictureUrl : "https://tse2.mm.bing.net/th?id=OIP.l8N4H5EfKyEhQNqOelX49AHaHa&pid=Api&P=0&h=220" }}  className="w-full h-full rounded-full" />
+          <Text className="text-center font-bold text-neutral-700 mt-4 text-xl">{user.name}</Text>
         </View>
       </View>
 
-      {/* User Info */}
-      <View className="items-center mt-16">
-        <Text className="text-xl font-bold text-[#223e90]">John Doe</Text>
-        <Text className="text-gray-500">Product Designer</Text>
+      <View className="px-3">
+        <TouchableOpacity activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
+          <Ionicons name='albums-outline' size={24} color='#223e90' />
+          <Text className="text-lg font-normal text-neutral-800 ml-2">Produk</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
+          <Ionicons name='cart-outline' size={24} color='#223e90' />
+          <Text className="text-lg font-normal text-neutral-800 ml-2">Keranjang</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleLogout} activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
+          <Ionicons name='exit-outline' size={24} color='#223e90' />
+          <Text className="text-lg font-normal text-neutral-800 ml-2">Logout</Text>
+        </TouchableOpacity>
+
       </View>
-
-      {/* Details Cards */}
-      <View className="mt-4 px-6">
-        {/* Joined Date */}
-        <View className="flex-row items-center bg-white p-4 shadow-md rounded-lg my-2">
-          <Ionicons name="calendar" size={24} color="#0072FF" />
-          <View className="ml-4">
-            <Text className="text-gray-500">Joined Date</Text>
-            <Text className="font-bold text-[#223e90]">1 January 2020</Text>
-          </View>
-        </View>
-
-        {/* Active Projects */}
-        <View className="flex-row items-center bg-white p-4 shadow-md rounded-lg my-2">
-          <Ionicons name="layers" size={24} color="#0072FF" />
-          <View className="ml-4">
-            <Text className="text-gray-500">Active Projects</Text>
-            <Text className="font-bold text-[#223e90]">13</Text>
-          </View>
-        </View>
-
-        {/* Projects Delivered */}
-        <View className="flex-row items-center bg-white p-4 shadow-md rounded-lg my-2">
-          <Ionicons name="paper-plane" size={24} color="#0072FF" />
-          <View className="ml-4">
-            <Text className="text-gray-500">Projects Delivered</Text>
-            <Text className="font-bold text-[#223e90]">135</Text>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+    </View>
   );
 }
