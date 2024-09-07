@@ -1,12 +1,13 @@
 import { View, Text, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Animated, { FadeIn } from 'react-native-reanimated'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 export default function WelcomeScreen() {
 
     const navigation = useNavigation()
-    const [isLogin, setIsLogin] = useState(true);
+    const route = useRoute()
+    const { isLogin } = route.params
 
     useEffect(() => {
         setTimeout(() => {

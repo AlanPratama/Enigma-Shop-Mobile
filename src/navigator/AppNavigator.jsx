@@ -17,7 +17,7 @@ export default function AppNavigator() {
             screenOptions={{ headerShown: false }}
             initialRouteName="Welcome"
           >
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Welcome" component={WelcomeScreen} initialParams={{ isLogin }} />
 
             {isLogin ? (
                 <Stack.Screen name="Protected" component={ProtectedRoutes} />
