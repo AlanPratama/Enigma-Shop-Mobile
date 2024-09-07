@@ -5,6 +5,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicRoutes from "./PublicRoutes";
+import ProductDetail from "../screens/authorization/product/ProductDetail"
 
 export default function AppNavigator() {
   const Stack = createNativeStackNavigator();
@@ -24,7 +25,8 @@ export default function AppNavigator() {
             ) : (
                 <Stack.Screen name="Public" component={PublicRoutes} />
             )}
-
+            
+            <Stack.Screen name="ProductDetail" component={ProductDetail} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
