@@ -14,7 +14,13 @@ export default function ProtectedRoutes() {
         case "Home":
           icon = "home-outline";
           break;
+        case "Home2":
+          icon = "home-outline";
+          break;
         case "Product":
+          icon = "settings-outline";
+          break;
+        case "Product2":
           icon = "settings-outline";
           break;
       }
@@ -68,7 +74,17 @@ export default function ProtectedRoutes() {
             component={() => <HomeScreen />}
           />
           <CurvedBottomBarExpo.Screen
+            name="Home2"
+            position="LEFT"
+            component={() => <HomeScreen />}
+          />
+          <CurvedBottomBarExpo.Screen
             name="Product"
+            component={() => <ProductScreen />}
+            position="RIGHT"
+          />
+          <CurvedBottomBarExpo.Screen
+            name="Product2"
             component={() => <ProductScreen />}
             position="RIGHT"
           />
