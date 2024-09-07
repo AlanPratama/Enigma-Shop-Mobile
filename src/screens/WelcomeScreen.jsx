@@ -1,15 +1,16 @@
 import { View, Text, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Animated, { FadeIn } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
 
 export default function WelcomeScreen() {
 
     const navigation = useNavigation()
+    const [isLogin, setIsLogin] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate("Login")
+            navigation.navigate(isLogin ? "Protected" : "Public")
         }, 2500)
     }, [])
 
