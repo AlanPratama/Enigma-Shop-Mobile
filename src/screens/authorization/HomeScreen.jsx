@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import AuthApi from '../../apis/AuthApi';
 import { useSelector } from 'react-redux';
+import store from '../../redux/store';
+import { logout } from '../../redux/auth/authSlice';
 
 export default function HomeScreen() {
 
@@ -14,9 +16,11 @@ export default function HomeScreen() {
 
   const handleLogout = async () => {
     try {
-      await AuthApi.logout()
+      // await AuthApi.logout()
+      await store.dispatch(logout())
+      await AsyncStorage.removeItem("access_token")
+      
       console.log("Berhasil logout");
-      navigation.replace("Welcome")
     } catch (error) {
       console.log("HomeScreen Err: ", error);
     }

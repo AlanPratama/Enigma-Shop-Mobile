@@ -20,7 +20,7 @@ export default class AuthApi {
         await AsyncStorage.setItem("access_token", res.data.access_token);
         store.dispatch(login(jwtDecode(res.data.access_token)));
       }
-
+      
       return res;
     } catch (error) {
       store.dispatch(setError(error.message));
@@ -41,7 +41,6 @@ export default class AuthApi {
           },
         }
       );
-
       return res;
     } catch (error) {
       console.log("AuthApi register: ", error.message);

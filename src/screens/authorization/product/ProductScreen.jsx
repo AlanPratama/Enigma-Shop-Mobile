@@ -1,22 +1,71 @@
-import { View, Text, Pressable } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import ProductApi from "../../../apis/ProductApi";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { useDebounce } from "use-debounce";
 
-export default function ProductScreen({ navigation }) {
-  return (
-    <View>
-      <Text>ProductScreen</Text>
-      <View className="w-3/4 mx-auto">
-        <Pressable
-          onPress={() => {
-            navigation.navigate("ProductDetail", {
-              productId: "0a5133b5-51ef-420e-b59c-75fb400a6f28",
-            });
-          }}
-          className="flex items-center rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm ransition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-        >
-          <Text className="text-white">Go To Product Details (Dev)</Text>
-        </Pressable>
+export default function ProductScreen() {
+  const data = useSelector((state) => state.products);
+  const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [queryDebounce] = useDebounce(searchQuery, 500)
+
+  const getProducts = async (query = "") => {
+    await ProductApi.getProducts(query);
+  };
+
+  useEffect(() => {
+    getProducts(queryDebounce);
+  }, [queryDebounce]);
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("ProductDetail", { productId: item.id })}
+      style={{
+        backgroundColor: 'white', 
+        padding: 16, 
+        marginVertical: 8,
+        marginHorizontal: 16, 
+        borderRadius: 8, 
+        shadowColor: "#000", 
+        shadowOffset: { width: 0, height: 2 }, 
+        shadowOpacity: 0.1, 
+        shadowRadius: 8, 
+        elevation: 3, 
+      }}
+    >
+      <View className="flex-row items-center justify-between">
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
+        <Text style={{ fontSize: 16, color: 'gray' }}>Stock: {item.stock}</Text>
       </View>
+      <Text style={{ marginTop: 8, color: 'gray' }}>{item.description}</Text>
+      <Text style={{ marginTop: 8, fontWeight: 'bold' }}>Rp {item.price.toLocaleString()}</Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <View className="flex-1 bg-white p-4">
+      <Text className="text-2xl font-bold mb-4 text-center">Product List</Text>
+      <TextInput 
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Cari Product..."
+        style={{
+          backgroundColor: '#f0f0f0',
+          padding: 10,
+          borderRadius: 8,
+          marginBottom: 16,
+          marginHorizontal: 14
+        }}
+      />
+      
+      <FlatList
+        data={data.items}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 }
