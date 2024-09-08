@@ -1,4 +1,8 @@
-import { setError, setIsLoading, setProducts } from "../redux/products/productsSlice";
+import {
+  setError,
+  setIsLoading,
+  setProducts,
+} from "../redux/products/productsSlice";
 import store from "../redux/store";
 import { axiosInstance } from "./axiosInstance";
 
@@ -9,7 +13,7 @@ class ProductApi {
 
       // Mengirim query parameter ke backend jika ada
       const { data } = await axiosInstance.get(`/products`, {
-        params: { query } // Kirim query sebagai parameter URL
+        params: { query }, // Kirim query sebagai parameter URL
       });
 
       store.dispatch(
