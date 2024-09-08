@@ -17,10 +17,10 @@ export default class AuthApi {
                 },
             })
 
-            if(res.status === 200) {
                 await AsyncStorage.setItem("access_token", res.data.access_token)
                 store.dispatch(login(jwtDecode(res.data.access_token)))
-            }
+                console.log("DIPANGGIL LOGIN");
+                
 
             return res
         } catch (error) {

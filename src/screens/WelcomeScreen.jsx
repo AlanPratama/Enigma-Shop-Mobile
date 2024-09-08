@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
 
     useEffect(() => {
       setTimeout(() => {
-          navigation.replace(isAuthenticated ? "Protected" : "Public", { punyaLeviKECIL: true })
+          navigation.replace(isAuthenticated ? "Protected" : "Public")
         }, 2500)
     }, [])
 

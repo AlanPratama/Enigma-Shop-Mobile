@@ -4,6 +4,7 @@ import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import Animated from "react-native-reanimated";
 import HomeScreen from "../screens/authorization/HomeScreen";
 import ProductScreen from "../screens/authorization/product/ProductScreen";
+import ProfileScreen from "../screens/authorization/ProfileScreen";
 
 
 export default function ProtectedRoutes() {
@@ -14,14 +15,14 @@ export default function ProtectedRoutes() {
         case "Home":
           icon = "home-outline";
           break;
-        case "Home2":
-          icon = "home-outline";
-          break;
         case "Product":
+          icon = "file-tray-stacked-outline";
+          break;
+        case "Product1":
           icon = "settings-outline";
           break;
-        case "Product2":
-          icon = "settings-outline";
+        case "Profile":
+          icon = "person-outline";
           break;
       }
   
@@ -74,18 +75,18 @@ export default function ProtectedRoutes() {
             component={() => <HomeScreen />}
           />
           <CurvedBottomBarExpo.Screen
-            name="Home2"
+            name="Product"
             position="LEFT"
-            component={() => <HomeScreen />}
+            component={() => <ProductScreen />}
           />
           <CurvedBottomBarExpo.Screen
-            name="Product"
+            name="Product1"
             component={() => <ProductScreen />}
             position="RIGHT"
           />
           <CurvedBottomBarExpo.Screen
-            name="Product2"
-            component={() => <ProductScreen />}
+            name="Profile"
+            component={() => <ProfileScreen />}
             position="RIGHT"
           />
         </CurvedBottomBarExpo.Navigator>
