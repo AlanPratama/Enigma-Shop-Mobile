@@ -3,19 +3,21 @@ import React, { useEffect, useState } from "react";
 import ProductApi from "../../../apis/ProductApi";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { useDebounce } from "use-debounce";
 
 export default function ProductScreen() {
   const data = useSelector((state) => state.products);
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [queryDebounce] = useDebounce(searchQuery, 500)
 
   const getProducts = async (query = "") => {
     await ProductApi.getProducts(query);
   };
 
   useEffect(() => {
-    getProducts(searchQuery);
-  }, [searchQuery]);
+    getProducts(queryDebounce);
+  }, [queryDebounce]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
