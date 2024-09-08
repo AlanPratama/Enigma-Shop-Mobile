@@ -41,7 +41,6 @@ export default function LoginScreen() {
             }
           })
         } else {
-          console.log("tidak");
           navigate.replace("Welcome")
         }
       } catch (error) {

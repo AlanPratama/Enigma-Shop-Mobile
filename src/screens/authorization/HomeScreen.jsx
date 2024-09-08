@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import store from '../../redux/store';
+import { logout } from '../../redux/auth/authSlice';
 
 export default function HomeScreen() {
 

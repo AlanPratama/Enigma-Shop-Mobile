@@ -15,10 +15,10 @@ export default function ProtectedRoutes() {
         case "Home":
           icon = "home-outline";
           break;
-        case "Home2":
-          icon = "home-outline";
-          break;
         case "Product":
+          icon = "file-tray-stacked-outline";
+          break;
+        case "Product1":
           icon = "settings-outline";
           break;
         case "Profile":
@@ -75,12 +75,12 @@ export default function ProtectedRoutes() {
             component={() => <HomeScreen />}
           />
           <CurvedBottomBarExpo.Screen
-            name="Home2"
+            name="Product"
             position="LEFT"
-            component={() => <HomeScreen />}
+            component={() => <ProductScreen />}
           />
           <CurvedBottomBarExpo.Screen
-            name="Product"
+            name="Product1"
             component={() => <ProductScreen />}
             position="RIGHT"
           />
