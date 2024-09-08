@@ -5,10 +5,10 @@ import categoryReducer from "./products/categorySlice";
 import cartReducer from "./cart/cartSlice";
 
 export default configureStore({
-  reducer: {
-    auth: authReducer,
-    products: productReducer,
-    categories: categoryReducer
-    cart: cartReducer
-  },
+	reducer: {
+		auth: authReducer,
+		products: productReducer,
+		categories: categoryReducer,
+		cart: cartReducer,
+	},
 });
