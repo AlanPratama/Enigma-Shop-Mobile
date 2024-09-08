@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Alert, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
 import Animated from "react-native-reanimated";
 import HomeScreen from "../screens/authorization/HomeScreen";
@@ -8,6 +9,7 @@ import ProfileScreen from "../screens/authorization/ProfileScreen";
 
 
 export default function ProtectedRoutes() {
+    const navigation = useNavigation();
     const _renderIcon = (routeName, selectedTab) => {
       let icon = "";
   
@@ -61,7 +63,7 @@ export default function ProtectedRoutes() {
             <Animated.View style={styles.btnCircleUp}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => Alert.alert("Click Action")}
+                onPress={() => navigation.navigate("Cart")}
               >
                 <Ionicons name={"cart-outline"} color="gray" size={25} />
               </TouchableOpacity>
