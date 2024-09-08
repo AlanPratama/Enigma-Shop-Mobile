@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Animated, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import CheckBox from "react-native-check-box";
 import { FadeIn } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -32,11 +32,26 @@ const CartScreen = () => {
 		store.dispatch(deleteProduct(id));
 	};
 
+	const deleteAction = (id) => {
+		Alert.alert("Hold on!", "Are you sure, want remove this item from cart?", [
+			{
+				text: "Cancel",
+				onPress: () => null,
+				style: "cancel",
+			},
+			{
+				text: "YES",
+				onPress: () => store.dispatch(deleteProduct(id)),
+			},
+		]);
+		return true;
+	};
+
 	const renderItem = ({ item }) => (
 		<Animated.View entering={FadeIn.delay(200)}>
-			<View className='border border-gray-400 border-1 rounded-xl p-4 flex flex-row justify-between mx-4 my-2'>
+			<View className={`border rounded-xl p-4 flex flex-row justify-between mx-4 my-2 ${item.selected ? "border-blue-600" : "border-gray-400"}`}>
 				<View className='flex flex-row gap-1'>
-					<CheckBox onClick={() => handleOnSelectProduct(item.id)} isChecked={item.selected} />
+					<CheckBox onClick={() => handleOnSelectProduct(item.id)} isChecked={item.selected} checkBoxColor='blue' />
 					<View>
 						<Image
 							source={item.imageUrl ? { uri: item.imageUrl } : require("../../../assets/imageNotFound.png")}
@@ -55,7 +70,7 @@ const CartScreen = () => {
 						</TouchableOpacity>
 						<View className='flex items-center flex-row gap-3'>
 							{item.quantity <= 1 ? (
-								<TouchableOpacity className='border-blue-800 rounded-lg border-2' onPress={() => handleOnDeleteProduct(item.id)}>
+								<TouchableOpacity className='border-blue-800 rounded-lg border-2' onPress={() => deleteAction(item.id)}>
 									<Ionicons name='trash' size={18} color='black' />
 								</TouchableOpacity>
 							) : (
@@ -85,7 +100,7 @@ const CartScreen = () => {
 			</View>
 			<View className='p-4 flex-row flex-shrink-0 justify-between items-center border border-t-1 border-t-gray-200 shadow-lg'>
 				<View className='flex flex-row items-center gap-2'>
-					<CheckBox onClick={handleOnSelectAll} isChecked={selectedAll} />
+					<CheckBox onClick={handleOnSelectAll} isChecked={selectedAll} checkBoxColor='blue' />
 					<Text>Select All</Text>
 				</View>
 				<View className='flex gap-4 flex-row'>

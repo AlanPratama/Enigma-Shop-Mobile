@@ -38,7 +38,7 @@ export default function AppNavigator() {
         <SafeAreaView style={{ flex: 1 }}>
           <NavigationContainer>
             <Stack.Navigator
-              screenOptions={{ headerShown: false }}
+              screenOptions={{ headerShown: false, statusBarStyle: "dark" }}
               initialRouteName="Welcome"
             >
               <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -57,7 +57,6 @@ export default function AppNavigator() {
                       headerTitleStyle: {
                         fontSize: 23,
                       },
-                      statusBarStyle: "dark"
                     }
                   } />
                 </>

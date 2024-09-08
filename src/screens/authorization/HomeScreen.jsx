@@ -32,9 +32,9 @@ export default function HomeScreen() {
     getProducts();
   }, []);
 
-  console.log("ALSKALKSLAKSA: ", itemsProduct);
+//   console.log("ALSKALKSLAKSA: ", itemsProduct);
 
-  console.log("USER: ", user);
+//   console.log("USER: ", user);
 
   return (
     <View className="flex-1 bg-white">

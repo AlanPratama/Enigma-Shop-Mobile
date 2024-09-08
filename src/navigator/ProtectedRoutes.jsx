@@ -65,7 +65,7 @@ export default function ProtectedRoutes() {
 			screenOptions={{ headerShown: false }}
 			renderCircle={({ selectedTab, navigate }) => (
 				<Animated.View style={styles.btnCircleUp}>
-					<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Cart")}>
+					<TouchableOpacity style={styles.button} onPress={() => navigate("Cart")}>
 						<Ionicons name={"cart-outline"} color='gray' size={25} />
 					</TouchableOpacity>
 				</Animated.View>
