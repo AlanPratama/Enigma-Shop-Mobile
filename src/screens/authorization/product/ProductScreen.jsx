@@ -1,26 +1,21 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import ProductApi from "../../../apis/ProductApi";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ProductScreen() {
-  const [quantity, setQuantity] = useState(0);
   const data = useSelector((state) => state.products);
   const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const getProducts = async () => {
-    await ProductApi.getProducts();
+  const getProducts = async (query = "") => {
+    await ProductApi.getProducts(query);
   };
 
   useEffect(() => {
-    getProducts();
-  }, []);
-
-  console.log(data);
-
-  const increase = () => setQuantity(quantity + 1);
-  const decrease = () => setQuantity(quantity > 0 ? quantity - 1 : 0);
+    getProducts(searchQuery);
+  }, [searchQuery]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -50,6 +45,19 @@ export default function ProductScreen() {
   return (
     <View className="flex-1 bg-white p-4">
       <Text className="text-2xl font-bold mb-4 text-center">Product List</Text>
+      <TextInput 
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Cari Product..."
+        style={{
+          backgroundColor: '#f0f0f0',
+          padding: 10,
+          borderRadius: 8,
+          marginBottom: 16,
+          marginHorizontal: 14
+        }}
+      />
+      
       <FlatList
         data={data.items}
         showsVerticalScrollIndicator={false}
@@ -57,31 +65,5 @@ export default function ProductScreen() {
         keyExtractor={(item) => item.id.toString()}
       />
     </View>
-
-    // <View className="flex-1 bg-white p-4">
-    //   <Text className="text-2xl font-bold mb-4 text-center">Product List</Text>
-
-    //   <View className="flex-row items-center justify-between bg-gray-100 p-4 rounded-lg mb-4">
-    //     <Text className="text-lg">Spaghety Wow</Text>
-
-    //     <View className="flex-row items-center">
-    //       <TouchableOpacity
-    //         onPress={decrease}
-    //         className="bg-gray-200 rounded-full w-8 h-8 items-center justify-center mr-2"
-    //       >
-    //         <Text className="text-xl font-bold">-</Text>
-    //       </TouchableOpacity>
-
-    //       <Text className="text-lg">{quantity}</Text>
-
-    //       <TouchableOpacity
-    //         onPress={increase}
-    //         className="bg-gray-200 rounded-full w-8 h-8 items-center justify-center ml-2"
-    //       >
-    //         <Text className="text-lg">+</Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   </View>
-    // </View>
   );
 }
