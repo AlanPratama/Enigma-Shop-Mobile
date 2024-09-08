@@ -11,6 +11,7 @@ import store from "../redux/store";
 import { login, logout } from "../redux/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import ProductDetail from "../screens/authorization/product/ProductDetail"
+import CartScreen from "../screens/authorization/CartScreen";
 
 export default function AppNavigator() {
   const Stack = createNativeStackNavigator();
@@ -37,13 +38,28 @@ export default function AppNavigator() {
         <SafeAreaView style={{ flex: 1 }}>
           <NavigationContainer>
             <Stack.Navigator
-              screenOptions={{ headerShown: false }}
+              screenOptions={{ headerShown: false, statusBarStyle: "dark" }}
               initialRouteName="Welcome"
             >
               <Stack.Screen name="Welcome" component={WelcomeScreen} />
 
               {isAuthenticated ? (
+                <>
                   <Stack.Screen name="Protected" component={ProtectedRoutes} />
+                  <Stack.Screen name="Cart" component={CartScreen} options={
+                    {
+                      headerShown: true, 
+                      headerTitleAlign: 'center',
+                      title: 'My Cart',
+                      contentStyle: {
+                        backgroundColor: 'white'
+                      },
+                      headerTitleStyle: {
+                        fontSize: 23,
+                      },
+                    }
+                  } />
+                </>
               ) : (
                   <Stack.Screen name="Public" component={PublicRoutes} />
               )}
