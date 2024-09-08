@@ -8,14 +8,21 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
+  Share,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "react-native-reanimated-carousel";
+import Toast from "react-native-toast-message";
+import { useSelector } from "react-redux";
 
 export default function ProductDetail({ route }) {
   const navigation = useNavigation();
-  const { productId } = route.params;
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const { productId } = route.params;
+  const product = useSelector((state) =>
+    state.products.items.find((item) => item.id === productId)
+  );
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -23,29 +30,6 @@ export default function ProductDetail({ route }) {
       setRefreshing(false);
     }, 2000);
   }, []);
-
-  const product = {
-    id: "0a5133b5-51ef-420e-b59c-75fb400a6f28",
-    name: "Self-Help Guide",
-    description: "Bestselling self-improvement book",
-    price: 180000,
-    stock: 100,
-    imageUrls: [
-      "https://cdn.shopify.com/s/files/1/0070/7032/files/product-label-design.jpg?v=1680902906",
-    ],
-    createdAt: "2024-08-29T02:24:21.000Z",
-    updatedAt: "2024-08-29T02:24:21.000Z",
-    categories: [
-      {
-        id: 3,
-        name: "Books",
-        description: "Books and publications",
-        createdAt: "2024-08-29T02:24:21.000Z",
-        updatedAt: "2024-08-29T02:24:21.000Z",
-      },
-    ],
-    reviews: [],
-  };
 
   return (
     <FlatList
@@ -61,9 +45,58 @@ export default function ProductDetail({ route }) {
   );
 }
 
-function ProductDetailComponent({ product, navigation }) {
+function ProductDetailComponent({ product }) {
   const [liked, setLiked] = React.useState(false);
   const width = Dimensions.get("window").width;
+
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `Cek produk ini: ${
+          product.name
+        }\Harga: Rp ${product.price.toLocaleString()}\n${
+          product.description
+        }\n\nHanya di Enigma Shop`,
+      });
+      // if (result.action === Share.sharedAction) {
+      //   if (result.activityType) {
+      //   } else {
+      //   }
+      // } else if (result.action === Share.dismissedAction) {
+      // }
+    } catch (error) {
+      alert(error.message);
+      Toast.show({
+        type: "error",
+        text1: "Terjadi kesalahan",
+        text2: error.message,
+        text1Style: {
+          fontSize: 16,
+          color: "#262626",
+        },
+        text2Style: {
+          fontSize: 14,
+          color: "#262626",
+        },
+      });
+    }
+  };
+
+  const addedToCart = () => {
+    Toast.show({
+      type: "success",
+      text1: "Sukses",
+      text2: "Berhasil menambahkan ke keranjang!",
+      text1Style: {
+        fontSize: 16,
+        color: "#262626",
+      },
+      text2Style: {
+        fontSize: 14,
+        color: "#262626",
+      },
+    });
+  };
 
   return (
     <View className="flex flex-1 h-screen">
@@ -98,19 +131,24 @@ function ProductDetailComponent({ product, navigation }) {
         <View className="flex-1">
           <Text className="text-gray-400">{product.categories[0]?.name}</Text>
           <View className="flex flex-row justify-between">
-            <Text className="text-2xl font-bold text-black">
+            <Text className="text-2xl font-bold text-black w-3/4">
               {product.name}
             </Text>
-            <Pressable className="my-auto" onPress={() => setLiked(!liked)}>
-              <Ionicons
-                name={liked ? "heart" : "heart-outline"}
-                color={liked ? "red" : "black"}
-                size={24}
-              />
-            </Pressable>
+            <View className="flex flex-row gap-2">
+              <Pressable className="my-auto" onPress={handleShare}>
+                <Ionicons name="share-social-outline" color="black" size={24} />
+              </Pressable>
+              <Pressable className="my-auto" onPress={() => setLiked(!liked)}>
+                <Ionicons
+                  name={liked ? "heart" : "heart-outline"}
+                  color={liked ? "red" : "black"}
+                  size={24}
+                />
+              </Pressable>
+            </View>
           </View>
           <Text className="text-xl font-bold text-red-400">
-            IDR {product.price.toLocaleString()}
+            Rp {product.price.toLocaleString()}
           </Text>
           <Text className="text-gray-400 mt-4">{product.description}</Text>
           <Text className="text-sm text-gray-500 mt-2">
@@ -121,7 +159,9 @@ function ProductDetailComponent({ product, navigation }) {
         <View className="flex-row justify-around align-bottom flex-1 -mt-64 space-x-4">
           <Pressable
             className="p-3 my-auto border w-1/2"
-            onPress={() => alert("Ditambahkan ke keranjang!")}
+            onPress={() => {
+              addedToCart();
+            }}
           >
             <Text className="text-black text-center font-bold">
               + Keranjang
