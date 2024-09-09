@@ -10,7 +10,7 @@ export default function ProfileScreen() {
   const { user } = useSelector((state) => state.auth)
   const navigation = useNavigation()
 
-  console.log("USER: ", user);
+  // console.log("USER: ", user);
   
 
   const handleLogout = async () => {
