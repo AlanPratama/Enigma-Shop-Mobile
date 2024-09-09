@@ -1,14 +1,13 @@
-import { View, Text, TouchableOpacity, FlatList, TextInput, ActivityIndicator, Image } from "react-native";
-import React, { useEffect, useState } from "react";
-import ProductApi from "../../../apis/ProductApi";
-import Animated, { FadeIn } from 'react-native-reanimated';
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { useSelector } from "react-redux";
 import { useDebounce } from "use-debounce";
+import ProductApi from "../../../apis/ProductApi";
 
 export default function ProductScreen() {
   const data = useSelector((state) => state.products);
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,16 +52,16 @@ export default function ProductScreen() {
         }}
       >
         <Image 
-          source={{ uri: "https://placehold.co/400x200/png" }} 
+          source={{ uri: item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls[0] : "https://placehold.co/400x200/png" }} 
           style={{ width: '100%', height: 200, borderRadius: 8, marginBottom: 8 }} 
           resizeMode="cover" 
         />
         <View className="flex-row items-center justify-between">
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Stock: {item.stock}</Text>
+          <Text className="text-lg font-semibold" >{item.name}</Text>
+          <Text className="text-md text-blue-950 text-ellipsis">Stock: {item.stock}</Text>
         </View>
-        <Text style={{ marginTop: 8, color: 'gray' }}>{item.description}</Text>
-        <Text style={{ marginTop: 8, fontWeight: 'bold' }}>Rp {item.price.toLocaleString()}</Text>
+        <Text className="mt-2 font-light text-gray-900">{item.description}</Text>
+        <Text className="mt-2 font-bold text-xl text-blue-400">Rp {item.price.toLocaleString()}</Text>
       </TouchableOpacity>
     </Animated.View>
   );
