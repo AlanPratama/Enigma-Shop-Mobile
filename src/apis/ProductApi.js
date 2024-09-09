@@ -12,7 +12,7 @@ class ProductApi {
 
       store.dispatch(
         setProducts({
-          items: page === 1 ? data.items : [...store.getState().products.items, ...data.items], // Jika page 1, reset data, jika tidak gabungkan
+          items: page === 1 ? data.items : [...store.getState().products.items, ...data.items], 
           total: data.total,
         })
       );

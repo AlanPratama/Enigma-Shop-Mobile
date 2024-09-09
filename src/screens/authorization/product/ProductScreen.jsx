@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, TextInput, ActivityIndicator, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import ProductApi from "../../../apis/ProductApi";
 import Animated, { FadeIn } from 'react-native-reanimated';
@@ -13,21 +13,21 @@ export default function ProductScreen() {
   
   const [searchQuery, setSearchQuery] = useState("");
   const [queryDebounce] = useDebounce(searchQuery, 500);
-  const [page, setPage] = useState(1); // State untuk halaman
-  const [loadingMore, setLoadingMore] = useState(false); // State untuk loading lebih banyak data
+  const [page, setPage] = useState(1); 
+  const [loadingMore, setLoadingMore] = useState(false); 
 
   const getProducts = async (query = "", page = 1) => {
     await ProductApi.getProducts(query, page);
   };
 
   useEffect(() => {
-    // Reset halaman ke 1 ketika melakukan pencarian baru
+
     setPage(1);
     getProducts(queryDebounce, 1);
   }, [queryDebounce]);
 
   const loadMoreProducts = async () => {
-    if (loadingMore || data.items.length >= data.total) return; // Cek apakah sudah mencapai batas total
+    if (loadingMore || data.items.length >= data.total) return; 
 
     setLoadingMore(true);
     await getProducts(queryDebounce, page + 1);
@@ -52,6 +52,11 @@ export default function ProductScreen() {
           elevation: 3, 
         }}
       >
+        <Image 
+          source={{ uri: "https://placehold.co/400x200/png" }} 
+          style={{ width: '100%', height: 200, borderRadius: 8, marginBottom: 8 }} 
+          resizeMode="cover" 
+        />
         <View className="flex-row items-center justify-between">
           <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
           <Text style={{ fontSize: 16, color: 'gray' }}>Stock: {item.stock}</Text>
@@ -85,9 +90,9 @@ export default function ProductScreen() {
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMoreProducts} // Panggil ketika scroll ke bawah
-        onEndReachedThreshold={0.5} // Threshold untuk memulai load lebih awal (misalnya ketika scroll mencapai 50% dari bawah)
-        ListFooterComponent={loadingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null} // Tampilkan loader di bagian bawah
+        onEndReached={loadMoreProducts} 
+        onEndReachedThreshold={0.5} 
+        ListFooterComponent={loadingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null} 
       />
     </View>
   );
