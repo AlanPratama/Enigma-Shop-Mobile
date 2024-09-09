@@ -1,12 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { TextInput } from "react-native";
-import { Animated, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
-import CheckBox from "react-native-check-box";
+import { Animated, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { FadeIn } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 
 const ConfirmationScreen = () => {
-	const { products, selectedAll, totalPrice } = useSelector((state) => state.cart);
+	const { products, totalPrice } = useSelector((state) => state.cart);
 	const navigation = useNavigation();
 
 	const renderItem = ({ item }) => (
@@ -73,7 +71,7 @@ const ConfirmationScreen = () => {
 					<TouchableOpacity
 						className={`flex-1 py-3 px-6 rounded-xl ${totalPrice == 0 ? "bg-gray-500" : "bg-[#314ea7]"}`}
 						disabled={totalPrice == 0}
-						onPress={navigation.navigate("Payment")}
+						onPress={() => navigation.navigate("Payment")}
 					>
 						<Text className='text-center text-white text-base'>Select Payment</Text>
 					</TouchableOpacity>

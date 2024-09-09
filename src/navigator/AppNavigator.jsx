@@ -14,6 +14,7 @@ import ProductDetail from "../screens/authorization/product/ProductDetail";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicRoutes from "./PublicRoutes";
+import PaymentScreen from "../screens/authorization/PaymentScreen";
 
 export default function AppNavigator() {
 	const Stack = createNativeStackNavigator();
@@ -67,6 +68,21 @@ export default function AppNavigator() {
 										headerShown: true,
 										headerTitleAlign: "center",
 										title: "Detail and Confirmation",
+										contentStyle: {
+											backgroundColor: "white",
+										},
+										headerTitleStyle: {
+											fontSize: 23,
+										},
+									}}
+								/>
+								<Stack.Screen
+									name='Payment'
+									component={PaymentScreen}
+									options={{
+										headerShown: true,
+										headerTitleAlign: "center",
+										title: "Payment",
 										contentStyle: {
 											backgroundColor: "white",
 										},
