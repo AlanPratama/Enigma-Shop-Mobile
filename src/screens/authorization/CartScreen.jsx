@@ -9,7 +9,7 @@ import { decreaseQuantity, deleteProduct, increaseQuantity, setSelectAll, setSel
 import { Ionicons } from "@expo/vector-icons";
 
 const CartScreen = () => {
-	const { products, selectedAll, totalPrice } = useSelector((state) => state.cart);
+	const { products, selectedAll, totalPrice, total } = useSelector((state) => state.cart);
 	const navigation = useNavigation();
 
 	const handleOnSelectAll = () => {
@@ -28,12 +28,9 @@ const CartScreen = () => {
 	const handleOnIncreaseQuantity = (id) => {
 		store.dispatch(increaseQuantity(id));
 	};
-	const handleOnDeleteProduct = (id) => {
-		store.dispatch(deleteProduct(id));
-	};
 
-	const deleteAction = (id) => {
-		Alert.alert("Hold on!", "Are you sure, want remove this item from cart?", [
+	const deleteAction = (id, itemName) => {
+		Alert.alert("Hold on!", "Are you sure, want remove " + itemName + " from cart?", [
 			{
 				text: "Cancel",
 				onPress: () => null,
@@ -70,7 +67,7 @@ const CartScreen = () => {
 						</TouchableOpacity>
 						<View className='flex items-center flex-row gap-3'>
 							{item.quantity <= 1 ? (
-								<TouchableOpacity className='border-blue-800 rounded-lg border-2' onPress={() => deleteAction(item.id)}>
+								<TouchableOpacity className='border-blue-800 rounded-lg border-2' onPress={() => deleteAction(item.id, item.name)}>
 									<Ionicons name='trash' size={18} color='black' />
 								</TouchableOpacity>
 							) : (
@@ -79,13 +76,13 @@ const CartScreen = () => {
 								</TouchableOpacity>
 							)}
 							<Text className='text-lg'>{item.quantity}</Text>
-							{item.quantity >= item.stock ? (
-								<Text>You already select all stock</Text>
-							) : (
-								<TouchableOpacity className='border-blue-800 rounded-lg border-2' onPress={() => handleOnIncreaseQuantity(item.id)}>
-									<Ionicons name='add' size={18} color='black' />
-								</TouchableOpacity>
-							)}
+							<TouchableOpacity
+								className={`border-blue-800 rounded-lg border-2 ${item.quantity >= item.stock && "opacity-30"}`}
+								disabled={item.quantity >= item.stock}
+								onPress={() => handleOnIncreaseQuantity(item.id)}
+							>
+								<Ionicons name='add' size={18} color='black' />
+							</TouchableOpacity>
 						</View>
 					</View>
 				</View>
@@ -106,10 +103,14 @@ const CartScreen = () => {
 				<View className='flex gap-4 flex-row'>
 					<View className='flex flex-col justify-around text-black'>
 						<Text className='text-gray-500 text-right'>Total</Text>
-						<Text className='text-lg font-bold text-right'>Rp {totalPrice.toLocaleString("id-ID")}</Text>
+						<Text className='text-base font-bold text-right'>Rp {totalPrice.toLocaleString("id-ID")}</Text>
 					</View>
-					<TouchableOpacity className={`flex-shrink-0 py-3 px-6 rounded-xl ${totalPrice == 0 ? "bg-gray-500" : "bg-[#314ea7]"}`} disabled={totalPrice == 0}>
-						<Text className='text-center text-white text-base'>Checkout</Text>
+					<TouchableOpacity
+						className={`flex-shrink-0 py-2 px-4 rounded-xl ${totalPrice == 0 ? "bg-gray-500" : "bg-[#314ea7]"}`}
+						disabled={totalPrice == 0}
+						onPress={() => navigation.navigate("Confirmation")}
+					>
+						<Text className='text-center text-white text-base'>Checkout ({total})</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
