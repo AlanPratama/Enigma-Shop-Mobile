@@ -19,16 +19,19 @@ export default function ProtectedRoutes() {
 
     switch (routeName) {
       case "Home":
-        icon = "home-outline";
+        icon = selectedTab === "Home" ? "home" : "home-outline";
         break;
       case "Product":
-        icon = "file-tray-stacked-outline";
+        icon =
+          selectedTab === "Product"
+            ? "file-tray-stacked"
+            : "file-tray-stacked-outline";
         break;
       case "Product1":
-        icon = "settings-outline";
+        icon = selectedTab === "Product1" ? "settings" : "settings-outline";
         break;
       case "Profile":
-        icon = "person-outline";
+        icon = selectedTab === "Profile" ? "person" : "person-outline";
         break;
     }
 
@@ -36,7 +39,7 @@ export default function ProtectedRoutes() {
       <Ionicons
         name={icon}
         size={25}
-        color={routeName === selectedTab ? "blue" : "black"}
+        color={routeName === selectedTab ? "white" : "white"}
       />
     );
   };
@@ -59,7 +62,7 @@ export default function ProtectedRoutes() {
       shadowStyle={styles.shawdow}
       height={55}
       circleWidth={50}
-      bgColor="#cbd5e1"
+      bgColor="#2563eb"
       initialRouteName="Home"
       borderTopLeftRight
       screenOptions={{ headerShown: false }}
@@ -69,7 +72,7 @@ export default function ProtectedRoutes() {
             style={styles.button}
             onPress={() => navigate("Cart")}
           >
-            <Ionicons name={"cart-outline"} color="black" size={25} />
+            <Ionicons name={"cart-outline"} color="white" size={25} />
           </TouchableOpacity>
         </Animated.View>
       )}
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#cbd5e1",
+    backgroundColor: "#2563eb",
     bottom: 30,
     shadowColor: "#000",
     shadowOffset: {
