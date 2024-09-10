@@ -10,7 +10,7 @@ export default function ProfileScreen() {
   const { user } = useSelector((state) => state.auth)
   const navigation = useNavigation()
 
-  // console.log("USER: ", user);
+  console.log("USER: ", user);
   
 
   const handleLogout = async () => {
@@ -28,7 +28,7 @@ export default function ProfileScreen() {
       <Animated.View entering={FadeIn.delay(100)} className="bg-[#223e90] rounded-b-full w-full h-96 fixed -top-[24%] flex justify-end items-center">
         <View className="w-36 h-36 absolute -bottom-[15%] border border-gray-200 rounded-full">
           <Animated.Image entering={FadeIn.delay(150)} source={{ uri: user.profilePictureUrl ? user.profilePictureUrl : "https://tse2.mm.bing.net/th?id=OIP.l8N4H5EfKyEhQNqOelX49AHaHa&pid=Api&P=0&h=220" }}  className="w-full h-full rounded-full" />
-          <Animated.Text entering={FadeIn.delay(200)} className="text-center font-bold text-neutral-700 mt-4 text-xl">{user.name}</Animated.Text>
+          <Animated.Text entering={FadeIn.delay(200)} className="text-center font-bold text-neutral-700 mt-4 text-xl">{user.iss}</Animated.Text>
         </View>
       </Animated.View>
 

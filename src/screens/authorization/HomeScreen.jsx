@@ -13,8 +13,15 @@ import Animated, { FadeIn } from "react-native-reanimated";
 // import CategoryApi from "../../apis/CategoryApi";
 import ProductApi from "../../apis/ProductApi";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { usePushNotification } from "../../../usePushNotification";
 
 export default function HomeScreen() {
+  const { expoPushToken, notification } = usePushNotification()
+
+  const data = JSON.stringify(notification, undefined, 2);
+
+
+
   const { user } = useSelector((state) => state.auth);
   const { items } = useSelector((state) => state.categories);
   const { items: itemsProduct } = useSelector((state) => state.products);
@@ -40,7 +47,8 @@ export default function HomeScreen() {
     <View className="flex-1 bg-white">
       <View className="px-3 mt-3 flex-row justify-between items-center">
         <Text className="text-2xl font-bold text-neutral-700">
-          <Text className="text-[#255bff]">ENIGMA</Text> SHOP
+          <Text className="text-[#255bff]">ENIGMA</Text> {expoPushToken ?? "not"}
+          <Text className="text-[#255bff]">{data}</Text>
         </Text>
         <View className="flex-row justify-center items-center gap-x-1">
           <Ionicons name="notifications-outline" size={24} color="black" />
