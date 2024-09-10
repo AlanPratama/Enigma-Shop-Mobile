@@ -88,8 +88,6 @@ export default function ProductScreen() {
             Stock: {item.stock}
           </Text>
         </View>
-        {/* {/* <Text className="mt-2 font-light text-gray-900">{item.description}</Text> */}{" "}
-        */}
         <Text className="mt-2 font-semibold text-lg text-blue-600">
           Rp {item.price.toLocaleString()}
         </Text>

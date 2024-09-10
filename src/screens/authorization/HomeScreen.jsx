@@ -5,7 +5,6 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ProductApi from "../../apis/ProductApi";
-import ProductApi from "../../apis/ProductApi";
 
 export default function HomeScreen() {
   const { items: itemsProduct } = useSelector((state) => state.products);
