@@ -17,89 +17,106 @@ import PublicRoutes from "./PublicRoutes";
 import PaymentScreen from "../screens/authorization/PaymentScreen";
 
 export default function AppNavigator() {
-	const Stack = createNativeStackNavigator();
-	const { isAuthenticated } = useSelector((state) => state.auth);
-	console.log("isAuthenticated: ", isAuthenticated);
+  const Stack = createNativeStackNavigator();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  console.log("isAuthenticated: ", isAuthenticated);
 
-	const setUser = async () => {
-		const token = await AsyncStorage.getItem("access_token");
-		console.log("tokenn: ", token);
+  const setUser = async () => {
+    const token = await AsyncStorage.getItem("access_token");
+    console.log("tokenn: ", token);
 
-		if (token) {
-			store.dispatch(login(jwtDecode(token)));
-		} else {
-			store.dispatch(logout());
-		}
-	};
+    if (token) {
+      store.dispatch(login(jwtDecode(token)));
+    } else {
+      store.dispatch(logout());
+    }
+  };
 
-	useEffect(() => {
-		setUser();
-	}, []);
+  useEffect(() => {
+    setUser();
+  }, []);
 
-	return (
-		<SafeAreaProvider>
-			<SafeAreaView style={{ flex: 1 }}>
-				<NavigationContainer>
-					<Stack.Navigator screenOptions={{ headerShown: false, statusBarStyle: "dark" }} initialRouteName='Welcome'>
-						<Stack.Screen name='Welcome' component={WelcomeScreen} />
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false, statusBarStyle: "dark" }}
+            initialRouteName="Welcome"
+          >
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
 
-						{isAuthenticated ? (
-							<>
-								<Stack.Screen name='Protected' component={ProtectedRoutes} />
-								<Stack.Screen
-									name='Cart'
-									component={CartScreen}
-									options={{
-										headerShown: true,
-										headerTitleAlign: "center",
-										title: "My Cart",
-										contentStyle: {
-											backgroundColor: "white",
-										},
-										headerTitleStyle: {
-											fontSize: 23,
-										},
-									}}
-								/>
-								<Stack.Screen
-									name='Confirmation'
-									component={ConfirmationScreen}
-									options={{
-										headerShown: true,
-										headerTitleAlign: "center",
-										title: "Detail and Confirmation",
-										contentStyle: {
-											backgroundColor: "white",
-										},
-										headerTitleStyle: {
-											fontSize: 23,
-										},
-									}}
-								/>
-								<Stack.Screen
-									name='Payment'
-									component={PaymentScreen}
-									options={{
-										headerShown: true,
-										headerTitleAlign: "center",
-										title: "Payment",
-										contentStyle: {
-											backgroundColor: "white",
-										},
-										headerTitleStyle: {
-											fontSize: 23,
-										},
-									}}
-								/>
-							</>
-						) : (
-							<Stack.Screen name='Public' component={PublicRoutes} />
-						)}
+            {isAuthenticated ? (
+              <>
+                <Stack.Screen name="Protected" component={ProtectedRoutes} />
+                <Stack.Screen
+                  name="Cart"
+                  component={CartScreen}
+                  options={{
+                    headerShown: true,
+                    headerTitleAlign: "center",
+                    title: "My Cart",
+                    contentStyle: {
+                      backgroundColor: "white",
+                    },
+                    headerTitleStyle: {
+                      fontSize: 23,
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Confirmation"
+                  component={ConfirmationScreen}
+                  options={{
+                    headerShown: true,
+                    headerTitleAlign: "center",
+                    title: "Detail and Confirmation",
+                    contentStyle: {
+                      backgroundColor: "white",
+                    },
+                    headerTitleStyle: {
+                      fontSize: 23,
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Payment"
+                  component={PaymentScreen}
+                  options={{
+                    headerShown: true,
+                    headerTitleAlign: "center",
+                    title: "Payment",
+                    contentStyle: {
+                      backgroundColor: "white",
+                    },
+                    headerTitleStyle: {
+                      fontSize: 23,
+                    },
+                  }}
+                />
+              </>
+            ) : (
+              <Stack.Screen name="Public" component={PublicRoutes} />
+            )}
 
-						<Stack.Screen options={{ headerShown: true }} name='ProductDetail' component={ProductDetail} />
-					</Stack.Navigator>
-				</NavigationContainer>
-			</SafeAreaView>
-		</SafeAreaProvider>
-	);
+            <Stack.Screen
+              options={{
+                headerShown: true,
+                headerTitleAlign: "center",
+                title: "Product Details",
+                contentStyle: {
+                  backgroundColor: "white",
+                },
+                headerTitleStyle: {
+                  fontSize: 23,
+                },
+              }}
+              name="ProductDetail"
+              component={ProductDetail}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
 }

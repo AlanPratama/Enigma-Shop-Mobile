@@ -5,10 +5,12 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ProductApi from "../../apis/ProductApi";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const { items: itemsProduct } = useSelector((state) => state.products);
   const [likedItems, setLikedItems] = useState([]);
+  const navigation = useNavigation();
 
   const toggleLike = (itemId) => {
     setLikedItems((prevLikedItems) =>
@@ -189,9 +191,14 @@ export default function HomeScreen() {
               <Animated.View
                 key={item.id}
                 entering={FadeIn.delay(250)}
-                className="w-[160px] mr-4 items-center"
+                className=" mr-4 items-center bg-neutral-100 shadow-xl p-4 rounded-xl"
               >
-                <TouchableOpacity activeOpacity={0.7} className="">
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() =>
+                    navigation.navigate("ProductDetail", { productId: item.id })
+                  }
+                >
                   <View className="relative">
                     <Image
                       source={
