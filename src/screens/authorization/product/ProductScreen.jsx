@@ -69,10 +69,9 @@ export default function ProductScreen() {
       >
         <Image
           source={{
-            uri:
-              item.imageUrls && item.imageUrls.length > 0
-                ? item.imageUrls[0]
-                : "https://placehold.co/400x200/png",
+            uri: item.image?.url
+              ? process?.env?.EXPO_PUBLIC_API_URL_IMG + item.image.url
+              : "https://placehold.co/400x200/png",
           }}
           style={{
             width: "100%",

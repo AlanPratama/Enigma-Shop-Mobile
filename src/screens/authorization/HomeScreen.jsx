@@ -202,8 +202,12 @@ export default function HomeScreen() {
                   <View className="relative">
                     <Image
                       source={
-                        item.imageUrl
-                          ? { uri: item.imageUrl }
+                        item.image.url
+                          ? {
+                              uri:
+                                process?.env?.EXPO_PUBLIC_API_URL_IMG +
+                                item.image.url,
+                            }
                           : { uri: "https://placehold.co/160x160/png" }
                       }
                       className="w-[160px] h-[160px] rounded-[6px] bg-blue-100"

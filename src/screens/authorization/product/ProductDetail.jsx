@@ -66,7 +66,6 @@ export default function ProductDetail({ route }) {
   }, []);
 
   console.log("Test product: ", product);
-  
 
   return (
     <View style={{ flex: 1 }}>
@@ -114,7 +113,7 @@ export default function ProductDetail({ route }) {
 }
 
 function ProductDetailComponent({ product, setIsOnCart }) {
-  const [currentPage, setCurrentPage] = React.useState(0);
+  // const [currentPage, setCurrentPage] = React.useState(0);
   const [liked, setLiked] = React.useState(false);
   const [readMore, setIsReadMore] = React.useState(false);
 
@@ -154,27 +153,24 @@ function ProductDetailComponent({ product, setIsOnCart }) {
   return (
     <View className="flex flex-1 h-full">
       <View className="items-center">
-        {product.imageUrls ? (
+        {product.image.url ? (
           <>
             <PagerView
               className="w-full h-80"
               initialPage={0}
-              onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
+              // onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
             >
-              {product.imageUrls.map((image, index) => {
-                return (
-                  <Animated.View entering={FadeIn.delay(100)} key={index}>
-                    <Image
-                      source={{
-                        uri: image,
-                      }}
-                      className="h-full w-full"
-                    />
-                  </Animated.View>
-                );
-              })}
+              <Animated.View entering={FadeIn.delay(100)}>
+                <Image
+                  source={{
+                    uri:
+                      process?.env?.EXPO_PUBLIC_API_URL_IMG + product.image.url,
+                  }}
+                  className="h-full w-full"
+                />
+              </Animated.View>
             </PagerView>
-
+            {/* 
             <View className="flex-row justify-center fixed bottom-8 z-10">
               {product.imageUrls.map((_, index) => (
                 <View
@@ -184,7 +180,7 @@ function ProductDetailComponent({ product, setIsOnCart }) {
                   }`}
                 />
               ))}
-            </View>
+            </View> */}
           </>
         ) : (
           <View className="w-full h-60 bg-gray-300 justify-center items-center">
