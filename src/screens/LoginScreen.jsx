@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("validUsername2");
+  const [password, setPassword] = useState("Valid@123");
   const { error } = useSelector((state) => state.auth)
 
   // superadmin1
@@ -24,7 +24,9 @@ export default function LoginScreen() {
           username,
           password
         })
-  
+
+        console.log("res: ", res);
+        
         if(error) {
           console.log("error");
           Toast.show({
@@ -43,6 +45,8 @@ export default function LoginScreen() {
         } else {
           console.log("tidak");
           navigate.replace("Welcome")
+          console.log("res: ", res.data.data);
+          
         }
       } catch (error) {
         console.log("LoginScreen Err: ", error);

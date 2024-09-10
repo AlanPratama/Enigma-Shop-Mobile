@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const token = async () => await AsyncStorage.getItem("access_token")
+
 export const axiosInstance = axios.create({
-    baseURL: "http://10.10.103.166:3000/api/v1",
-    withCredentials: true,
-    timeout: 5000
-})
+	baseURL: process?.env?.EXPO_PUBLIC_API_URL || "http://10.10.103.238:8080/api",
+	timeout: 5000,
+});
