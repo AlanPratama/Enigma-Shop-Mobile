@@ -6,8 +6,8 @@ export default class CategoryApi {
     static async getCategories() {
         try {
             const res = await axiosInstance.get("/categories")
-            console.log("RES: ", res.data);
-            console.log("LENGTH: ", res.data.length);
+            // console.log("RES: ", res.data);
+            // console.log("LENGTH: ", res.data.length);
             const items = res.data
             const total = res.data.length
             store.dispatch(setCategories({ items, total }))

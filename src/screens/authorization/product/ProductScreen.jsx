@@ -1,24 +1,38 @@
-import { View, Text, TouchableOpacity, FlatList, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import ProductApi from "../../../apis/ProductApi";
+import { ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import { useDebounce } from "use-debounce";
+import ProductApi from "../../../apis/ProductApi";
 
 export default function ProductScreen() {
   const data = useSelector((state) => state.products);
   const navigation = useNavigation();
+  
   const [searchQuery, setSearchQuery] = useState("");
-  const [queryDebounce] = useDebounce(searchQuery, 500)
+  const [queryDebounce] = useDebounce(searchQuery, 500);
+  const [page, setPage] = useState(1); 
+  const [loadingMore, setLoadingMore] = useState(false); 
 
-  const getProducts = async (query = "") => {
-    await ProductApi.getProducts(query);
+  const getProducts = async (query = "", page = 1) => {
+    await ProductApi.getProducts(query, page);
   };
 
   useEffect(() => {
-    getProducts(queryDebounce);
+
+    setPage(1);
+    getProducts(queryDebounce, 1);
   }, [queryDebounce]);
+
+  const loadMoreProducts = async () => {
+    if (loadingMore || data.items.length >= data.total) return; 
+
+    setLoadingMore(true);
+    await getProducts(queryDebounce, page + 1);
+    setPage(prevPage => prevPage + 1);
+    setLoadingMore(false);
+  };
 
   const renderItem = ({ item }) => (
     <Animated.View entering={FadeIn.delay(200)}>
@@ -37,12 +51,17 @@ export default function ProductScreen() {
           elevation: 3, 
         }}
       >
+        <Image 
+          source={{ uri: item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls[0] : "https://placehold.co/400x200/png" }} 
+          style={{ width: '100%', height: 200, borderRadius: 8, marginBottom: 8 }} 
+          resizeMode="cover" 
+        />
         <View className="flex-row items-center justify-between">
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Stock: {item.stock}</Text>
+          <Text className="text-lg font-semibold" >{item.name}</Text>
+          <Text className="text-md text-blue-950 text-ellipsis">Stock: {item.stock}</Text>
         </View>
-        <Text style={{ marginTop: 8, color: 'gray' }}>{item.description}</Text>
-        <Text style={{ marginTop: 8, fontWeight: 'bold' }}>Rp {item.price.toLocaleString()}</Text>
+        <Text className="mt-2 font-light text-gray-900">{item.description}</Text>
+        <Text className="mt-2 font-bold text-xl text-blue-400">Rp {item.price.toLocaleString()}</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -70,6 +89,9 @@ export default function ProductScreen() {
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        onEndReached={loadMoreProducts} 
+        onEndReachedThreshold={0.5} 
+        ListFooterComponent={loadingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null} 
       />
     </View>
   );
