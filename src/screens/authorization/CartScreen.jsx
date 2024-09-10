@@ -81,8 +81,11 @@ const CartScreen = () => {
           <View>
             <Image
               source={
-                item.imageUrl
-                  ? { uri: item.imageUrl }
+                item.image.url
+                  ? {
+                      uri:
+                        process?.env?.EXPO_PUBLIC_API_URL_IMG + item.image.url,
+                    }
                   : require("../../../assets/imageNotFound.png")
               }
               className="w-[80px] h-[80px] rounded-[6px] bg-blue-100"

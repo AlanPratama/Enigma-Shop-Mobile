@@ -9,6 +9,7 @@ import HomeScreen from "../screens/authorization/HomeScreen";
 import ProductScreen from "../screens/authorization/product/ProductScreen";
 import ProductDetail from "../screens/authorization/product/ProductDetail";
 import ProfileScreen from "../screens/authorization/ProfileScreen";
+import SettingScreen from "../screens/authorization/SettingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -90,7 +91,7 @@ export default function ProtectedRoutes() {
       />
       <CurvedBottomBarExpo.Screen
         name="Product1"
-        component={() => <ProductScreen />}
+        component={() => <SettingScreen />}
         position="RIGHT"
       />
       <CurvedBottomBarExpo.Screen
