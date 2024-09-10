@@ -163,12 +163,12 @@ export default function HomeScreen() {
                       }
                       className="w-[160px] h-[160px] rounded-[6px] bg-blue-100"
                     />
-                    <Text
+                    {/* <Text
                       numberOfLines={1}
                       className="absolute top-0 left-0 px-2 pr-3 py-1 text-sm bg-white border-b border-r border-gray-100 rounded-br-xl font-bold text-neutral-700"
                     >
-                      {/* {item.categories[0].name} */}
-                    </Text>
+                      {item.categories[0].name}
+                    </Text> */}
                   </View>
 
                   <View className="mt-1">

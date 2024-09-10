@@ -1,10 +1,17 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 import AuthApi from "../apis/AuthApi";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +50,7 @@ export default function RegisterScreen() {
       return "Passwords do not match.";
     }
 
-    return null; // Validation passed
+    return null;
   };
 
   const handleRegister = async () => {
@@ -99,87 +106,134 @@ export default function RegisterScreen() {
         },
       });
     }
+    return null; // Validation passed
   };
 
   return (
-    <View className="bg-white min-h-screen flex justify-center items-center">
+    <KeyboardAwareScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      keyboardShouldPersistTaps="handled"
+    >
       <Toast position="top" />
-      <View className="w-full px-8">
-        <Animated.Text
-          entering={FadeIn.delay(100)}
-          className="text-2xl text-[#223e90] font-bold"
-        >
-          Silahkan Register
-        </Animated.Text>
-        <Animated.View entering={FadeIn.delay(150)}>
-          <TextInput
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Masukkan username..."
-            className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
-          />
-        </Animated.View>
-        <Animated.View entering={FadeIn.delay(200)}>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Masukkan email..."
-            className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
-          />
-        </Animated.View>
-        <Animated.View entering={FadeIn.delay(250)}>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            placeholder="Masukkan name..."
-            className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
-          />
-        </Animated.View>
-        <Animated.View entering={FadeIn.delay(350)} className="relative">
+      <View style={styles.formContainer}>
+        <Text style={styles.header}>Silahkan Register</Text>
+        <TextInput
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Masukkan username..."
+          style={styles.input}
+        />
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Masukkan email..."
+          style={styles.input}
+        />
+        <TextInput
+          value={name}
+          onChangeText={setName}
+          placeholder="Masukkan name..."
+          style={styles.input}
+        />
+        <View style={styles.passwordContainer}>
           <TextInput
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
             placeholder="Masukkan password..."
-            className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
+            style={styles.input}
           />
-          <View className="absolute right-3 top-6">
-            <Ionicons
-              name={showPassword ? "eye-off" : "eye"}
-              size={20}
-              color="#223e90"
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          </View>
-        </Animated.View>
-        <Animated.View entering={FadeIn.delay(400)}>
-          <TextInput
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-            placeholder="Konfirmasi password..."
-            className="bg-white border-2 border-gray-200 rounded-lg p-2 px-3 my-2"
+          <Ionicons
+            name={showPassword ? "eye-off" : "eye"}
+            size={20}
+            color="#223e90"
+            style={styles.eyeIcon}
+            onPress={() => setShowPassword(!showPassword)}
           />
-        </Animated.View>
-        <Animated.View entering={FadeIn.delay(450)}>
-          <TouchableOpacity
-            onPress={handleRegister}
-            className="bg-[#314ea7] border-2 border-gray-100 rounded-lg py-3 my-2"
-            activeOpacity={0.7}
-          >
-            <Text className="text-center font-bold text-[#fff]">Register</Text>
-          </TouchableOpacity>
-        </Animated.View>
-        <Animated.View
-          entering={FadeIn.delay(500)}
-          className="mt-2 flex justify-start items-center flex-row"
+        </View>
+        <TextInput
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          placeholder="Konfirmasi password..."
+          style={styles.input}
+        />
+        <TouchableOpacity
+          onPress={handleRegister}
+          style={styles.registerButton}
+          activeOpacity={0.7}
         >
-          <Text className="text-[#223e90]">Belum Punya Akun? </Text>
+          <Text style={styles.registerButtonText}>Register</Text>
+        </TouchableOpacity>
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginText}>Sudah Punya Akun? </Text>
           <TouchableOpacity onPress={() => navigate.navigate("Login")}>
-            <Text className="text-[#223e90] font-bold">Login</Text>
+            <Text style={styles.loginLink}>Login</Text>
           </TouchableOpacity>
-        </Animated.View>
+        </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  formContainer: {
+    width: "100%",
+  },
+  header: {
+    fontSize: 24,
+    color: "#223e90",
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  input: {
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "gray",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 16,
+  },
+  passwordContainer: {
+    position: "relative",
+    marginBottom: 16,
+  },
+  eyeIcon: {
+    position: "absolute",
+    right: 10,
+    top: 12,
+  },
+  registerButton: {
+    backgroundColor: "#314ea7",
+    borderRadius: 8,
+    paddingVertical: 12,
+    marginBottom: 16,
+  },
+  registerButtonText: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  loginContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginText: {
+    color: "#223e90",
+  },
+  loginLink: {
+    color: "#223e90",
+    fontWeight: "bold",
+  },
+});
