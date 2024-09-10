@@ -80,7 +80,7 @@
             <Picker.Item label="Sort By Price" value="price" />
             <Picker.Item label="Sort By Stock" value="stock" />
           </Picker> */}
-          {/* <TextInput 
+          <TextInput 
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Cari Product..."
@@ -91,7 +91,7 @@
               marginBottom: 16,
               marginHorizontal: 14
             }}
-            /> */}
+            />
           </Animated.View>
         
         <FlatList
