@@ -169,7 +169,7 @@ function ProductDetailComponent({ product, isOnCart, setIsOnCart }) {
 
       <View className="rounded-t-3xl -mt-6 p-6 flex flex-col flex-1 bg-white">
         <View className="h-fit mb-12">
-          <Text className="text-gray-400">{product.categories[0]?.name}</Text>
+          {/* <Text className="text-gray-400">{product.categories[0]?.name}</Text> */}
           <View className="flex flex-row justify-between">
             <Text className="text-2xl font-bold text-black w-3/4">
               {product.name}
