@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "./axiosInstance";
 import store from "../redux/store";
 import { login, logout, setError, setIsLoading } from "../redux/auth/authSlice";
