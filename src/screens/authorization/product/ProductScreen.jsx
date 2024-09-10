@@ -5,7 +5,7 @@
   import { useSelector } from "react-redux";
   import { useDebounce } from "use-debounce";
   import ProductApi from "../../../apis/ProductApi";
-  import { Picker } from "@react-native-picker/picker";
+  // import { Picker } from "@react-native-picker/picker";
 
   export default function ProductScreen() {
     const data = useSelector((state) => state.products);
@@ -71,7 +71,7 @@
       <View className="flex-1 bg-white p-4">
         <Animated.Text entering={FadeIn.delay(100)} className="text-2xl font-bold mb-4 text-center">Product List</Animated.Text>
         <Animated.View entering={FadeIn.delay(150)}>
-          <Picker
+          {/* <Picker
             selectedValue={sortBy}
             onValueChange={(itemValue, itemIndex) => setSortBy(itemValue)}
             style={{marginBottom: 8, marginHorizontal: 12}}
@@ -79,7 +79,7 @@
             <Picker.Item label="Sort By Name" value="name" />
             <Picker.Item label="Sort By Price" value="price" />
             <Picker.Item label="Sort By Stock" value="stock" />
-          </Picker>
+          </Picker> */}
           {/* <TextInput 
             value={searchQuery}
             onChangeText={setSearchQuery}
