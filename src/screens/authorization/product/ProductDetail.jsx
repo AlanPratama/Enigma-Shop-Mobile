@@ -100,7 +100,7 @@ export default function ProductDetail({ route }) {
           <Pressable
             className="bg-blue-600 border border-blue-600 p-3 my-auto w-1/2 rounded-lg"
             onPress={() => {
-              addedToCart();
+              !isOnCart && addedToCart();
               navigation.navigate("Confirmation");
             }}
           >
