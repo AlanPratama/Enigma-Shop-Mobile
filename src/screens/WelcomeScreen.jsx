@@ -6,14 +6,12 @@ export default function WelcomeScreen() {
 
     return (
         <View style={styles.container}>
-            {/* Gambar bingkai yang menutupi seluruh layar atas */}
             <Image 
                 source={require("../../assets/bingkai.png")} 
                 style={styles.frameImage}
                 resizeMode="cover"
             />
 
-            {/* Konten Welcome */}
             <Animated.Text entering={FadeIn.delay(300)} style={styles.anivText}>
                 5th Anniversary
             </Animated.Text>
@@ -26,7 +24,6 @@ export default function WelcomeScreen() {
                 Celebrate with Us!
             </Animated.Text>
 
-            {/* Gambar musicnote di tengah layar */}
             <Animated.Image 
                 entering={FadeIn.delay(200)} 
                 source={require("../../assets/musicnote.png")} 
@@ -34,7 +31,6 @@ export default function WelcomeScreen() {
                 resizeMode="contain"
             />
 
-            {/* Gambar enigmaradio di tengah layar */}
             <Animated.Image 
                 entering={FadeIn.delay(200)} 
                 source={require("../../assets/enigmaradio.png")} 
@@ -42,7 +38,6 @@ export default function WelcomeScreen() {
                 resizeMode="contain"
             />
 
-            {/* Gambar Enigma Shop di bagian bawah layar */}
             <Animated.Image 
                 entering={FadeIn.delay(100)} 
                 source={require("../../assets/enigmashop.png")} 
@@ -50,12 +45,11 @@ export default function WelcomeScreen() {
                 resizeMode="contain"
             />
 
-            {/* Gambar confetti di bagian terdepan layar */}
             <Animated.Image 
                 entering={FadeIn.delay(100)} 
                 source={require("../../assets/confetti.png")} 
                 style={styles.confettiImage}
-                resizeMode="cover" // Menutupi lebar penuh layar
+                resizeMode="cover"
             />
         </View>
     );
@@ -75,7 +69,7 @@ const styles = StyleSheet.create({
         left: '0%',
         width: '100%',
         height: '50%',
-        zIndex: -1, // Menaruh gambar bingkai di belakang
+        zIndex: -1, 
     },
     anivText: {
         fontWeight: 'bold',
@@ -132,9 +126,9 @@ const styles = StyleSheet.create({
     },
     confettiImage: {
         position: 'absolute',
-        top: '0%', // Posisi di paling atas layar
-        width: '100%', // Menutupi lebar layar penuh
-        height: '30%', // Ukuran gambar confetti
-        zIndex: 2, // Menaruh gambar ini di paling depan
+        top: '0%',
+        width: '100%',
+        height: '30%', 
+        zIndex: 2, 
     },
 });
