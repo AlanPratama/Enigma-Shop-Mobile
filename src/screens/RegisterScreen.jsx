@@ -1,19 +1,114 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  StyleSheet,
 } from "react-native";
-import Animated, { FadeIn } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 import AuthApi from "../apis/AuthApi";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
+import PushNotification from "../../usePushNotification";
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+function handleRegistrationError(errorMessage) {
+  alert(errorMessage);
+  throw new Error(errorMessage);
+}
+
+async function registerForPushNotificationsAsync() {
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      handleRegistrationError('Permission not granted to get push token for push notification!');
+      return;
+    }
+    const projectId =
+      Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+    if (!projectId) {
+      handleRegistrationError('Project ID not found');
+    }
+    try {
+      const pushTokenString = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId,
+        })
+      ).data;
+      console.log(pushTokenString);
+      return pushTokenString;
+    } catch (e) {
+      handleRegistrationError(`${e}`);
+    }
+  } else {
+    handleRegistrationError('Must use physical device for push notifications');
+  }
+}
+
 
 export default function RegisterScreen() {
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(
+    undefined
+  );
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+
+  
+  useEffect(() => {
+    registerForPushNotificationsAsync()
+      .then(token => setExpoPushToken(token ?? ''))
+      .catch((error) => setExpoPushToken(`${error}`));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(notificationListener.current);
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+
   const [showPassword, setShowPassword] = useState(false);
 
   // const [username, setUsername] = useState("");
@@ -22,25 +117,25 @@ export default function RegisterScreen() {
   // const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("")
 
-  const [username, setUsername] = useState("validUsername2");
-  const [email, setEmail] = useState("validemail2@example.com");
-  const [name, setName] = useState("validname");
+  const [username, setUsername] = useState("validUsernanames");
+  // const [email, setEmail] = useState("validemail2@example.com");
+  // const [name, setName] = useState("validname");
   const [password, setPassword] = useState("Valid@123");
   const [confirmPassword, setConfirmPassword] = useState("Valid@123");
 
   const navigate = useNavigation();
 
   const handleValidation = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     if (username.length < 4) {
       return "Username must be longer than or equal to 4 characters.";
     }
 
-    if (!emailRegex.test(email)) {
-      return "Email must be a valid email.";
-    }
+    // if (!emailRegex.test(email)) {
+    //   return "Email must be a valid email.";
+    // }
 
     if (!passwordRegex.test(password)) {
       return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be longer than or equal to 8 characters.";
@@ -77,7 +172,7 @@ export default function RegisterScreen() {
       password,
     });
 
-    if (res.status === 201) {
+    if (res?.status === 201) {
       Toast.show({
         type: "success",
         text1: "Register Berhasil",
@@ -91,6 +186,10 @@ export default function RegisterScreen() {
           color: "#262626",
         },
       });
+
+      // ALALALA
+      await PushNotification.sendPushNotification(expoPushToken, "Register Berhasil!", "Silahkan login");
+
     } else {
       Toast.show({
         type: "error",
@@ -124,18 +223,18 @@ export default function RegisterScreen() {
           placeholder="Masukkan username..."
           style={styles.input}
         />
-        <TextInput
+        {/* <TextInput
           value={email}
           onChangeText={setEmail}
           placeholder="Masukkan email..."
           style={styles.input}
-        />
-        <TextInput
+        /> */}
+        {/* <TextInput
           value={name}
           onChangeText={setName}
           placeholder="Masukkan name..."
           style={styles.input}
-        />
+        /> */}
         <View style={styles.passwordContainer}>
           <TextInput
             value={password}
