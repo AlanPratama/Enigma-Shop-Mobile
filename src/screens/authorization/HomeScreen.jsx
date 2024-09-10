@@ -167,7 +167,7 @@ export default function HomeScreen() {
                       numberOfLines={1}
                       className="absolute top-0 left-0 px-2 pr-3 py-1 text-sm bg-white border-b border-r border-gray-100 rounded-br-xl font-bold text-neutral-700"
                     >
-                      {item.categories[0].name}
+                      {/* {item.categories[0].name} */}
                     </Text>
                   </View>
 

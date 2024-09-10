@@ -21,13 +21,15 @@ class ProductApi {
         },
       });
 
+      console.log("products:", data.data);
+
       store.dispatch(
         setProducts({
           items:
             page === 1
-              ? data.items
-              : [...store.getState().products.items, ...data.items],
-          total: data.total,
+              ? data.data
+              : [...store.getState().products, ...data.data],
+          total: data.data.length,
         })
       );
     } catch (error) {
