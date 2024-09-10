@@ -33,9 +33,7 @@ export default function ProductDetail({ route }) {
     const isProductOnCart = cartProduct.find(
       (product) => product.id == productId
     );
-    if (!!isProductOnCart) {
-      setIsOnCart(true);
-    }
+    setIsOnCart(isProductOnCart);
   };
 
   const addedToCart = () => {
