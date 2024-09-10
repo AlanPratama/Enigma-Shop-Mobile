@@ -161,7 +161,7 @@ export default function RegisterScreen() {
         </TouchableOpacity>
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>Sudah Punya Akun? </Text>
-          <TouchableOpacity onPress={() => { /* Navigate to Login */ }}>
+          <TouchableOpacity onPress={() => navigate.navigate("Login")}>
             <Text style={styles.loginLink}>Login</Text>
           </TouchableOpacity>
         </View>
