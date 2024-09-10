@@ -91,7 +91,7 @@
               marginBottom: 16,
               marginHorizontal: 14
             }}
-            /> */}
+            />
           </Animated.View>
         
         <FlatList

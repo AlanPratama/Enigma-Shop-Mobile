@@ -2,17 +2,16 @@ import React, { useEffect } from "react";
 import {
   Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import PagerView from "react-native-pager-view";
-import { useSelector } from "react-redux";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 // import CategoryApi from "../../apis/CategoryApi";
-import ProductApi from "../../apis/ProductApi";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ProductApi from "../../apis/ProductApi";
 
 export default function HomeScreen() {
   const { user } = useSelector((state) => state.auth);
