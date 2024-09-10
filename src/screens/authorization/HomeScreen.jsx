@@ -1,40 +1,68 @@
-import React, { useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import PagerView from "react-native-pager-view";
-import { useSelector } from "react-redux";
 import Animated, { FadeIn } from "react-native-reanimated";
-// import CategoryApi from "../../apis/CategoryApi";
-import ProductApi from "../../apis/ProductApi";
+import { useSelector } from "react-redux";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ProductApi from "../../apis/ProductApi";
 
 export default function HomeScreen() {
-  const { user } = useSelector((state) => state.auth);
-  const { items } = useSelector((state) => state.categories);
   const { items: itemsProduct } = useSelector((state) => state.products);
+  const [likedItems, setLikedItems] = useState([]);
 
-  // const getCategories = async () => {
-  //   await CategoryApi.getCategories();
-  // };
+  const toggleLike = (itemId) => {
+    setLikedItems((prevLikedItems) =>
+      prevLikedItems.includes(itemId)
+        ? prevLikedItems.filter((id) => id !== itemId)
+        : [...prevLikedItems, itemId]
+    );
+  };
+
+  const categories = [
+    {
+      id: 1,
+      name: "Foods",
+      icon: "restaurant-outline",
+    },
+    {
+      id: 2,
+      name: "Sports",
+      icon: "football-outline",
+    },
+    {
+      id: 3,
+      name: "Technology",
+      icon: "laptop-outline",
+    },
+    {
+      id: 4,
+      name: "Fashion",
+      icon: "shirt-outline",
+    },
+    {
+      id: 5,
+      name: "Health & Fitness",
+      icon: "fitness-outline",
+    },
+    {
+      id: 6,
+      name: "Travel",
+      icon: "airplane-outline",
+    },
+    {
+      id: 7,
+      name: "Education",
+      icon: "book-outline",
+    },
+  ];
 
   const getProducts = async (query = "") => {
     await ProductApi.getProducts(query);
   };
 
   useEffect(() => {
-    // getCategories();
     getProducts();
   }, []);
-
-  //   console.log("ALSKALKSLAKSA: ", itemsProduct);
-
-  //   console.log("USER: ", user);
 
   return (
     <View className="flex-1 bg-white">
@@ -116,27 +144,37 @@ export default function HomeScreen() {
         </Animated.View>
       </PagerView>
 
-      {/* <View className="p-3">
+      <View className="p-3">
         <Animated.Text
           entering={FadeIn.delay(150)}
           className="mb-4 text-2xl font-bold text-neutral-700"
         >
           Kategori Produk
         </Animated.Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {items &&
-            items.map((cat) => (
-              <Animated.View key={cat.id} entering={FadeIn.delay(200)}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="-mb-4"
+        >
+          {categories.map((cat) => (
+            <Animated.View
+              key={cat.id}
+              entering={FadeIn.delay(200)}
+              className="flex flex-row"
+            >
+              <View className="grid grid-flow-row mx-2 w-[80px]">
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  className="mr-1.5 bg-[#3466fc] py-2 px-4 rounded-full"
+                  className="bg-[#3466fc] p-2 rounded-full mx-auto"
                 >
-                  <Text className="text-white">{cat.name}</Text>
+                  <Ionicons name={cat.icon} color="white" size={40} />
                 </TouchableOpacity>
-              </Animated.View>
-            ))}
+                <Text className="text-black text-center">{cat.name}</Text>
+              </View>
+            </Animated.View>
+          ))}
         </ScrollView>
-      </View> */}
+      </View>
 
       <View className="p-3">
         <Animated.Text
@@ -159,10 +197,24 @@ export default function HomeScreen() {
                       source={
                         item.imageUrl
                           ? { uri: item.imageUrl }
-                          : require("../../../assets/imageNotFound.png")
+                          : { uri: "https://placehold.co/160x160/png" }
                       }
                       className="w-[160px] h-[160px] rounded-[6px] bg-blue-100"
                     />
+                    <TouchableOpacity
+                      onPress={() => toggleLike(item.id)}
+                      className="absolute top-0 right-0 p-2"
+                    >
+                      <Ionicons
+                        name={
+                          likedItems.includes(item.id)
+                            ? "heart"
+                            : "heart-outline"
+                        }
+                        size={24}
+                        color={likedItems.includes(item.id) ? "red" : "black"}
+                      />
+                    </TouchableOpacity>
                     {/* <Text
                       numberOfLines={1}
                       className="absolute top-0 left-0 px-2 pr-3 py-1 text-sm bg-white border-b border-r border-gray-100 rounded-br-xl font-bold text-neutral-700"
