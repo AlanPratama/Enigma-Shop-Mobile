@@ -20,13 +20,12 @@ export default function ProductScreen() {
   };
 
   useEffect(() => {
-
-    setPage(1);
+    setPage(1); 
     getProducts(queryDebounce, 1);
   }, [queryDebounce]);
 
   const loadMoreProducts = async () => {
-    if (loadingMore || data.items.length >= data.total) return; 
+    if (loadingMore || !data.paging.hasNext) return;
 
     setLoadingMore(true);
     await getProducts(queryDebounce, page + 1);
@@ -57,11 +56,11 @@ export default function ProductScreen() {
           resizeMode="cover" 
         />
         <View className="flex-row items-center justify-between">
-          <Text className="text-lg font-semibold" >{item.name}</Text>
+          <Text className="text-lg font-semibold capitalize" >{item.name}</Text>
           <Text className="text-md text-blue-950 text-ellipsis">Stock: {item.stock}</Text>
         </View>
-        <Text className="mt-2 font-light text-gray-900">{item.description}</Text>
-        <Text className="mt-2 font-bold text-xl text-blue-400">Rp {item.price.toLocaleString()}</Text>
+        {/* <Text className="mt-2 font-light text-gray-900">{item.description}</Text> */}
+        <Text className="mt-2 font-semibold text-lg text-blue-400">Rp {item.price.toLocaleString()}</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -92,6 +91,7 @@ export default function ProductScreen() {
         onEndReached={loadMoreProducts} 
         onEndReachedThreshold={0.5} 
         ListFooterComponent={loadingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null} 
+        contentContainerStyle={{paddingBottom: 90}}
       />
     </View>
   );

@@ -102,6 +102,64 @@ export default function RegisterScreen() {
       }
     };
 
+    return null; // Validation passed
+  };
+
+  const handleRegister = async () => {
+    const error = handleValidation();
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: "Register Gagal",
+        text2: error,
+        text1Style: {
+          fontSize: 16,
+          color: "#262626",
+        },
+        text2Style: {
+          fontSize: 14,
+          color: "#262626",
+        },
+      });
+      return;
+    }
+
+    const res = await AuthApi.register({
+      username,
+      password,
+    });
+
+    if (res.status === 201) {
+      Toast.show({
+        type: "success",
+        text1: "Register Berhasil",
+        text2: "Akun telah dibuat, silahkan login!",
+        text1Style: {
+          fontSize: 16,
+          color: "#262626",
+        },
+        text2Style: {
+          fontSize: 14,
+          color: "#262626",
+        },
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Register Gagal",
+        text2: "Username atau Email sudah dipakai.",
+        text1Style: {
+          fontSize: 16,
+          color: "#262626",
+        },
+        text2Style: {
+          fontSize: 14,
+          color: "#262626",
+        },
+      });
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}
