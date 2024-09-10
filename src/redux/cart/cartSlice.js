@@ -10,6 +10,26 @@ const countTotalPrice = (products) => {
 	return totalPrice;
 };
 
+const countTotalSelected = (products) => {
+	let total = 0;
+	products.forEach((product) => {
+		if (product.selected == true) {
+			total += 1;
+		}
+	});
+	return total;
+};
+
+const updateIsAllSelected = (products) => {
+	let isAllSelected = true;
+	products.forEach((product) => {
+		if (product.selected == false) {
+			isAllSelected = false;
+		}
+	});
+	return isAllSelected;
+};
+
 const cartSlice = createSlice({
 	name: "cart",
 	initialState: {
@@ -25,13 +45,7 @@ const cartSlice = createSlice({
 			state.products = [...state.products, { ...action.payload, quantity: 1, selected: true }];
 			state.total = state.total + 1;
 			state.totalPrice = state.totalPrice + action.payload.price;
-			let isAllSelected = true;
-			state.products.forEach((product) => {
-				if (product.selected == false) {
-					isAllSelected = false;
-				}
-			});
-			state.selectedAll = isAllSelected;
+			state.selectedAll = updateIsAllSelected(state.products);
 		},
 		increaseQuantity: (state, action) => {
 			state.products = state.products.map((product) => {
@@ -55,15 +69,9 @@ const cartSlice = createSlice({
 		},
 		deleteProduct(state, action) {
 			state.products = state.products.filter((item) => item.id !== action.payload);
-			state.total = state.total - 1;
-			let isAllSelected = true;
-			state.products.forEach((product) => {
-				if (product.selected == false) {
-					isAllSelected = false;
-				}
-			});
-			state.selectedAll = isAllSelected;
+			state.selectedAll = updateIsAllSelected(state.products);
 			state.totalPrice = countTotalPrice(state.products);
+			state.total = countTotalSelected(state.products);
 		},
 		setSelectProduct: (state, action) => {
 			state.products = state.products.map((product) => {
@@ -73,14 +81,9 @@ const cartSlice = createSlice({
 				}
 				return product;
 			});
-			let isAllSelected = true;
-			state.products.forEach((product) => {
-				if (product.selected == false) {
-					isAllSelected = false;
-				}
-			});
-			state.selectedAll = isAllSelected;
+			state.selectedAll = updateIsAllSelected(state.products);
 			state.totalPrice = countTotalPrice(state.products);
+			state.total = countTotalSelected(state.products);
 		},
 		setSelectAll: (state) => {
 			state.products = state.products.map((product) => {
@@ -88,6 +91,7 @@ const cartSlice = createSlice({
 				return product;
 			});
 			state.totalPrice = countTotalPrice(state.products);
+			state.total = state.products.length;
 			state.selectedAll = true;
 		},
 		setSelectNone: (state) => {
@@ -96,6 +100,7 @@ const cartSlice = createSlice({
 				return product;
 			});
 			state.totalPrice = 0;
+			state.total = 0;
 			state.selectedAll = false;
 		},
 		setIsLoading: (state, action) => {
