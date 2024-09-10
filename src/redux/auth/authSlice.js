@@ -14,10 +14,8 @@ const authSlice = createSlice({
             state.user = action.payload
         },
         logout: (state) => {
-            
             state.isAuthenticated = false,
             state.user = {}
-            // console.log("dipanggil");
         },
         setIsLoading: (state, action) => {
             state.isLoading = action.payload

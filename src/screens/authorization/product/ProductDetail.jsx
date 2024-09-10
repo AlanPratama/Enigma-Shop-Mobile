@@ -85,7 +85,7 @@ export default function ProductDetail({ route }) {
           keyExtractor={(item) => item.id}
         />
       </View>
-      <View className="fixed -mb-20">
+      <View className="fixed -mb-[70px]">
         <View className="flex-row justify-around space-x-4 h-fit px-8 py-2 bg-white border-t border-t-gray-300">
           <Pressable
             className="p-3 my-auto border bg-white border-blue-600 w-1/2 rounded-lg"

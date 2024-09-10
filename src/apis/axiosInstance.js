@@ -4,7 +4,7 @@ import { ToastAndroid } from "react-native";
 import AuthApi from "./AuthApi";
 
 export const axiosInstance = axios.create({
-	baseURL: process?.env?.EXPO_PUBLIC_API_URL || "http://10.10.103.238:8080/api",
+	baseURL: process?.env?.EXPO_PUBLIC_API_URL || "https://aca5-182-253-87-67.ngrok-free.app/api",
 	timeout: 5000,
 });
 

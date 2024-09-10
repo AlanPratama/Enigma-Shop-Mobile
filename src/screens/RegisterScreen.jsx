@@ -117,11 +117,11 @@ export default function RegisterScreen() {
   // const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("")
 
-  const [username, setUsername] = useState("validUsernanames");
+  const [username, setUsername] = useState("");
   // const [email, setEmail] = useState("validemail2@example.com");
   // const [name, setName] = useState("validname");
-  const [password, setPassword] = useState("Valid@123");
-  const [confirmPassword, setConfirmPassword] = useState("Valid@123");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigation();
 
@@ -186,6 +186,10 @@ export default function RegisterScreen() {
           color: "#262626",
         },
       });
+
+      setUsername("");
+      setPassword("");
+      setConfirmPassword("");
 
       // ALALALA
       await PushNotification.sendPushNotification(expoPushToken, "Register Berhasil!", "Silahkan login");
@@ -309,8 +313,8 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: "absolute",
-    right: 10,
-    top: 12,
+    right: 12,
+    top: 15,
   },
   registerButton: {
     backgroundColor: "#314ea7",

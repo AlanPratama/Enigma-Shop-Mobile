@@ -28,20 +28,20 @@ export default function ProfileScreen() {
       <Animated.View entering={FadeIn.delay(100)} className="bg-[#223e90] rounded-b-full w-full h-96 fixed -top-[24%] flex justify-end items-center">
         <View className="w-36 h-36 absolute -bottom-[15%] border border-gray-200 rounded-full">
           <Animated.Image entering={FadeIn.delay(150)} source={{ uri: user.profilePictureUrl ? user.profilePictureUrl : "https://tse2.mm.bing.net/th?id=OIP.l8N4H5EfKyEhQNqOelX49AHaHa&pid=Api&P=0&h=220" }}  className="w-full h-full rounded-full" />
-          <Animated.Text entering={FadeIn.delay(200)} className="text-center font-bold text-neutral-700 mt-4 text-xl">{user.name}</Animated.Text>
+          <Animated.Text entering={FadeIn.delay(200)} className="text-center font-bold text-neutral-700 mt-4 text-xl">{user.iss}</Animated.Text>
         </View>
       </Animated.View>
 
       <View className="px-3">
         <Animated.View entering={FadeIn.delay(250)}>
-          <TouchableOpacity activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
+          <TouchableOpacity onPress={() => navigation.navigate("Product")} activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
             <Ionicons name='albums-outline' size={24} color='#223e90' />
             <Text className="text-lg font-normal text-neutral-800 ml-2">Produk</Text>
           </TouchableOpacity>
         </Animated.View>
 
         <Animated.View entering={FadeIn.delay(300)}>
-          <TouchableOpacity activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
+          <TouchableOpacity onPress={() => navigation.navigate("Cart")} activeOpacity={0.5} className="mt-2 border-2 border-gray-200 flex flex-row justify-start items-center py-3.5 px-3.5 rounded-full">
             <Ionicons name='cart-outline' size={24} color='#223e90' />
             <Text className="text-lg font-normal text-neutral-800 ml-2">Keranjang</Text>
           </TouchableOpacity>

@@ -43,7 +43,7 @@ export default function HomeScreen() {
     },
     {
       id: 5,
-      name: "Health & Fitness",
+      name: "Healthy",
       icon: "fitness-outline",
     },
     {
@@ -80,7 +80,7 @@ export default function HomeScreen() {
       <PagerView className="flex-[0.66]" initialPage={0}>
         <Animated.View
           entering={FadeIn.delay(100)}
-          className="p-3 bg-[#255bfffd] m-3 h-48 rounded-2xl flex-row justify-between items-center"
+          className="p-3 bg-[#255bfffd] m-3 h-40 rounded-2xl flex-row justify-between items-center"
           key="1"
         >
           <View className="gap-2">
@@ -97,12 +97,12 @@ export default function HomeScreen() {
           </View>
           <Image
             source={require("../../../assets/carousel.png")}
-            className="h-48 w-44"
+            className="h-40 w-44"
           />
         </Animated.View>
         <Animated.View
           entering={FadeIn.delay(100)}
-          className="p-3 bg-[#255bfffd] m-3 h-48 rounded-2xl flex-row justify-between items-center"
+          className="p-3 bg-[#255bfffd] m-3 h-40 rounded-2xl flex-row justify-between items-center"
           key="2"
         >
           <View className="gap-2">
@@ -119,12 +119,12 @@ export default function HomeScreen() {
           </View>
           <Image
             source={require("../../../assets/carousel.png")}
-            className="h-48 w-44"
+            className="h-40 w-44"
           />
         </Animated.View>
         <Animated.View
           entering={FadeIn.delay(100)}
-          className="p-3 bg-[#255bfffd] m-3 h-48 rounded-2xl flex-row justify-between items-center"
+          className="p-3 bg-[#255bfffd] m-3 h-40 rounded-2xl flex-row justify-between items-center"
           key="3"
         >
           <View className="gap-2">
@@ -141,7 +141,7 @@ export default function HomeScreen() {
           </View>
           <Image
             source={require("../../../assets/carousel.png")}
-            className="h-48 w-44"
+            className="h-40 w-44"
           />
         </Animated.View>
       </PagerView>
