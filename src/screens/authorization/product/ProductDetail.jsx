@@ -22,6 +22,7 @@ export default function ProductDetail({ route }) {
   const [refreshing, setRefreshing] = React.useState(false);
   const { products: cartProduct } = useSelector((state) => state.cart);
   const [isOnCart, setIsOnCart] = React.useState(false);
+  const navigation = useNavigation();
 
   const { productId } = route.params;
   const product = useSelector((state) =>
@@ -37,6 +38,24 @@ export default function ProductDetail({ route }) {
     }
   };
 
+  const addedToCart = () => {
+    store.dispatch(addProduct(product));
+    setIsOnCart(true);
+    Toast.show({
+      type: "success",
+      text1: "Sukses",
+      text2: "Berhasil menambahkan ke keranjang!",
+      text1Style: {
+        fontSize: 16,
+        color: "#262626",
+      },
+      text2Style: {
+        fontSize: 14,
+        color: "#262626",
+      },
+    });
+  };
+
   React.useEffect(() => {
     checkProduct();
   }, []);
@@ -49,25 +68,51 @@ export default function ProductDetail({ route }) {
   }, []);
 
   return (
-    <FlatList
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      data={[product]}
-      renderItem={({ item }) => (
-        <ProductDetailComponent
-          product={item}
-          setIsOnCart={setIsOnCart}
-          isOnCart={isOnCart}
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 0.9 }}>
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          data={[product]}
+          renderItem={({ item }) => (
+            <ProductDetailComponent
+              product={item}
+              setIsOnCart={setIsOnCart}
+              isOnCart={isOnCart}
+            />
+          )}
+          keyExtractor={(item) => item.id}
         />
-      )}
-      keyExtractor={(item) => item.id}
-    />
+      </View>
+      <View className="fixed -mb-20">
+        <View className="flex-row justify-around space-x-4 h-fit px-8 py-2 bg-white border-t border-t-gray-300">
+          <Pressable
+            className="p-3 my-auto border bg-white border-blue-600 w-1/2 rounded-lg"
+            onPress={() => {
+              isOnCart ? navigation.navigate("Cart") : addedToCart();
+            }}
+          >
+            <Text className="text-blue-600 text-center font-bold">
+              {isOnCart ? "Already on Cart" : "+ Add to Cart"}
+            </Text>
+          </Pressable>
+          <Pressable
+            className="bg-blue-600 border border-blue-600 p-3 my-auto w-1/2 rounded-lg"
+            onPress={() => {
+              !isOnCart && addedToCart();
+              navigation.navigate("Confirmation");
+            }}
+          >
+            <Text className="text-white text-center font-bold">Buy Now</Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
   );
 }
 
-function ProductDetailComponent({ product, isOnCart, setIsOnCart }) {
-  const navigation = useNavigation();
+function ProductDetailComponent({ product, setIsOnCart }) {
   const [currentPage, setCurrentPage] = React.useState(0);
   const [liked, setLiked] = React.useState(false);
   const [readMore, setIsReadMore] = React.useState(false);
@@ -103,24 +148,6 @@ function ProductDetailComponent({ product, isOnCart, setIsOnCart }) {
         },
       });
     }
-  };
-
-  const addedToCart = () => {
-    store.dispatch(addProduct(product));
-    setIsOnCart(true);
-    Toast.show({
-      type: "success",
-      text1: "Sukses",
-      text2: "Berhasil menambahkan ke keranjang!",
-      text1Style: {
-        fontSize: 16,
-        color: "#262626",
-      },
-      text2Style: {
-        fontSize: 14,
-        color: "#262626",
-      },
-    });
   };
 
   return (
@@ -187,45 +214,28 @@ function ProductDetailComponent({ product, isOnCart, setIsOnCart }) {
               </Pressable>
             </View>
           </View>
-          <Text className="text-xl font-bold text-blue-400">
+          <Text className="text-xl font-bold text-blue-600">
             Rp {product.price.toLocaleString()}
           </Text>
           <Text
-            className="text-gray-400 mt-4"
+            className="text-gray-400 mt-2"
             numberOfLines={readMore ? 999 : 5}
           >
-            {product.description}
+            {product.description ? product.description : "Tidak ada deskripsi"}
           </Text>
           <Pressable onPress={() => setIsReadMore(!readMore)}>
-            <Text className="text-gray-600">
-              {readMore ? "Show Less" : "Read More"}
-            </Text>
+            {product.description && (
+              <Text className="text-gray-600">
+                {readMore ? "Show Less" : "Read More"}
+              </Text>
+            )}
           </Pressable>
           <Text className="text-sm text-gray-500 mt-2">
             Stok: <Text className="text-red-400">{product.stock}</Text>
           </Text>
         </View>
 
-        <View className="flex-row justify-around align-bottom space-x-4">
-          <Pressable
-            className="p-3 my-auto border border-blue-500 w-1/2"
-            onPress={() => {
-              isOnCart ? navigation.navigate("Cart") : addedToCart();
-            }}
-          >
-            <Text className="text-blue-400 text-center font-bold">
-              {isOnCart ? "Already on Cart" : "+ Add to Cart"}
-            </Text>
-          </Pressable>
-          <Pressable
-            className="bg-blue-400 border border-blue-400 p-3 my-auto w-1/2"
-            onPress={() => alert("Punya alan kecil")}
-          >
-            <Text className="text-white text-center font-bold">Buy Now</Text>
-          </Pressable>
-        </View>
-
-        <View className="mt-12 w-full">
+        <View className="w-full">
           <View className="flex flex-row">
             <Text className="text-2xl font-bold mb-2 w-1/2">Reviews</Text>
             <View className="flex flex-col w-1/2 items-end">
