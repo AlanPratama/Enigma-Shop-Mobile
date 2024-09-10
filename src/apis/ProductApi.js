@@ -8,14 +8,14 @@ import { axiosInstance } from "./axiosInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class ProductApi {
-  static async getProducts(query = "", page = 1, size = 10) {
+  static async getProducts(query = "", page = 1, size = 10, sortBy = "name") {
     try {
       const token = await AsyncStorage.getItem("access_token");
       console.log("TOKEN: ", token);
 
       store.dispatch(setIsLoading(true));
       const { data } = await axiosInstance.get(`/products`, {
-        params: { query, page, size },
+        params: { query, page, size, sortBy },
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,7 +28,7 @@ class ProductApi {
           items:
             page === 1
               ? data.data
-              : [...store.getState().products.items, ...data.data], // Gabungkan data produk jika page > 1
+              : [...store.getState().products.items, ...data.data], 
           paging: data.paging, 
         })
       );

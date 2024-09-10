@@ -65,6 +65,9 @@ export default function ProductDetail({ route }) {
     }, 2000);
   }, []);
 
+  console.log("Test product: ", product);
+  
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 0.9 }}>
