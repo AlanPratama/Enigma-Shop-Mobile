@@ -10,7 +10,7 @@ import {
 import PagerView from "react-native-pager-view";
 import { useSelector } from "react-redux";
 import Animated, { FadeIn } from "react-native-reanimated";
-import CategoryApi from "../../apis/CategoryApi";
+// import CategoryApi from "../../apis/CategoryApi";
 import ProductApi from "../../apis/ProductApi";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -19,27 +19,29 @@ export default function HomeScreen() {
   const { items } = useSelector((state) => state.categories);
   const { items: itemsProduct } = useSelector((state) => state.products);
 
-  const getCategories = async () => {
-    await CategoryApi.getCategories();
-  };
+  // const getCategories = async () => {
+  //   await CategoryApi.getCategories();
+  // };
 
   const getProducts = async (query = "") => {
     await ProductApi.getProducts(query);
   };
 
   useEffect(() => {
-    getCategories();
+    // getCategories();
     getProducts();
   }, []);
 
-//   console.log("ALSKALKSLAKSA: ", itemsProduct);
+  //   console.log("ALSKALKSLAKSA: ", itemsProduct);
 
-//   console.log("USER: ", user);
+  //   console.log("USER: ", user);
 
   return (
     <View className="flex-1 bg-white">
       <View className="px-3 mt-3 flex-row justify-between items-center">
-        <Text className="text-2xl font-bold text-neutral-700"><Text className="text-[#255bff]">ENIGMA</Text> SHOP</Text>
+        <Text className="text-2xl font-bold text-neutral-700">
+          <Text className="text-[#255bff]">ENIGMA</Text> SHOP
+        </Text>
         <View className="flex-row justify-center items-center gap-x-1">
           <Ionicons name="notifications-outline" size={24} color="black" />
           <Ionicons name="cart-outline" size={24} color="black" />
@@ -114,7 +116,7 @@ export default function HomeScreen() {
         </Animated.View>
       </PagerView>
 
-      <View className="p-3">
+      {/* <View className="p-3">
         <Animated.Text
           entering={FadeIn.delay(150)}
           className="mb-4 text-2xl font-bold text-neutral-700"
@@ -134,7 +136,7 @@ export default function HomeScreen() {
               </Animated.View>
             ))}
         </ScrollView>
-      </View>
+      </View> */}
 
       <View className="p-3">
         <Animated.Text
