@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487758604365",
+    "project_id": "enigma-shop-hacker-boys",
+    "storage_bucket": "enigma-shop-hacker-boys.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487758604365:android:e459c939674af852ea5404",
+        "android_client_info": {
+          "package_name": "com.alanpratama.EnigmaShopMobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqqIxkkhtKFdmz_DkcFDaokajSRhnG50E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

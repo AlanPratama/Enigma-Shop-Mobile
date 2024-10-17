@@ -1,25 +1,60 @@
-import { setError, setIsLoading, setProducts } from "../redux/products/productsSlice";
+import {
+  setError,
+  setIsLoading,
+  setProducts,
+} from "../redux/products/productsSlice";
 import store from "../redux/store";
 import { axiosInstance } from "./axiosInstance";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class ProductApi {
-  static async getProducts(query = "") {
+  static async getProducts(query = "", page = 1, size = 10, sortBy = "name") {
     try {
-      store.dispatch(setIsLoading(true));
+      const token = await AsyncStorage.getItem("access_token");
+      console.log("TOKEN: ", token);
 
-      // Mengirim query parameter ke backend jika ada
+      store.dispatch(setIsLoading(true));
       const { data } = await axiosInstance.get(`/products`, {
-        params: { query } // Kirim query sebagai parameter URL
+        params: { query, page, size, sortBy },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      console.log("products:", data.data);
 
       store.dispatch(
         setProducts({
-          items: data.items,
-          total: data.total,
+          items:
+            page === 1
+              ? data.data
+              : [...store.getState().products.items, ...data.data], 
+          paging: data.paging, 
         })
       );
     } catch (error) {
-      store.dispatch(setError(error.message)); // Hanya simpan pesan error yang serializable
+      store.dispatch(setError(error.message));
+      throw new Error(`Product API getProducts: ${error.message}`);
+    } finally {
+      store.dispatch(setIsLoading(false));
+    }
+  }
+
+  static async getProduct(productId) {
+    try {
+      store.dispatch(setIsLoading(true));
+      const token = await AsyncStorage.getItem("access_token");
+      console.log(token);
+
+      const { data } = await axiosInstance.get(`/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      store.dispatch(setError(error.message));
       throw new Error(`Product API getProducts: ${error.message}`);
     } finally {
       store.dispatch(setIsLoading(false));
